@@ -37892,15 +37892,14 @@ __webpack_require__.r(__webpack_exports__);
   computed: {},
   methods: {
     savepost: function savepost() {
-      var url = "/api/posts";
+      var url = "/api/fileupload";
 
       if (confirm("送信してよろしいですか？")) {
         axios__WEBPACK_IMPORTED_MODULE_0___default.a.post(url, {
           post: this.post,
           fileInfo: this.fileInfo
-        }).then(function (Response) {
-          //リダイレクト
-          location.href = "/";
+        }).then(function (Response) {//リダイレクト
+          // location.href = "/"
         })["catch"](function (error) {
           alert(error);
         });

@@ -53,7 +53,7 @@ export default {
     },
     methods: {
         savepost() {
-            let url = `/api/posts`
+            let url = `/api/fileupload`
             if (confirm("送信してよろしいですか？")) {
                 Axios.post(url, {
                     post: this.post,
@@ -61,7 +61,7 @@ export default {
                 })
                     .then(Response => {
                         //リダイレクト
-                        location.href = "/"
+                        // location.href = "/"
                     })
                     .catch(error => { alert(error) })
             }
