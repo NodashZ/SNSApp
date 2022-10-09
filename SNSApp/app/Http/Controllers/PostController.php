@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Post;
 use Illuminate\Http\Request;
+use App\Http\Resources\PostCollection;
+use App\Http\Resources\PostResource;
+use Illuminate\Support\Facades\Auth;
 
 class PostController extends Controller
 {
@@ -12,19 +15,21 @@ class PostController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
-    }
+        $sort = $request->sort;
+        $userId = $request->user()->id;
+        if (isset($userId)) {
+            $posts = $request->user()->posts();
+            if (isset($sort)) {
+                $posts = $posts->orderBy($sort, 'asc');
+            }
+            $posts = $posts->paginate(3);
+        } else {
+            $posts = [];
+        }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        return new PostCollection($posts);
     }
 
     /**
@@ -35,7 +40,14 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $post = new Post;
+        $form = $request->post;
+        $fileInfo = $request->fileInfo;
+        
+        // \Log::debug($fileInfo);
+        $post->user_id = $request->user()->id;
+        $post->fill($form)->save();
+        return response()->json([]);
     }
 
     /**
@@ -44,20 +56,10 @@ class PostController extends Controller
      * @param  \App\Post  $post
      * @return \Illuminate\Http\Response
      */
-    public function show(Post $post)
+    public function show(Post $post, int $id)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Post  $post
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Post $post)
-    {
-        //
+        $item = Post::findOrFail($id);
+        return new PostResource($item);
     }
 
     /**
@@ -67,9 +69,13 @@ class PostController extends Controller
      * @param  \App\Post  $post
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Post $post)
+    public function update(Request $request, Post $post, int $id)
     {
-        //
+        $post = Post::find($id);
+        $form = $request->post;
+        // unset($form['_token']);
+        $post->fill($form)->save();
+        return response()->json([]);
     }
 
     /**
@@ -78,8 +84,20 @@ class PostController extends Controller
      * @param  \App\Post  $post
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Post $post)
+    public function destroy($id)
     {
-        //
+        Post::destroy($id);
+        return response()->json([
+            "message" => "records deleted"
+        ]);
     }
+
+    public function logout()
+    {
+        Auth::logout();
+        return response()->json([
+            "message" => "logout"
+        ]);
+    }
+    
 }

@@ -10,11 +10,18 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-Route::get('/', function () {
-    return view('layouts');
+Route::group(['middleware' => 'auth'], function () {
+    Route::get('/', function () {
+        return view('post.list');
+    })->name('todos');
+    Route::get('/post/create', function () {
+        return view('post.form');
+    });
+    Route::get('/post/edit/{id}', function () {
+        return view('post.edit');
+    });
 });
-
 Auth::routes();
-
 Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/logout', 'PostController@logout');  
+
