@@ -3,23 +3,25 @@
         <post-message title="投稿一覧" :content='userName + "さんのタイムライン"'> </post-message>
         <table class="table table-striped">
             <tr>
-                <th><a href="#" @click.prevent.stop="fetchposts('/api/posts','user-name')" >投稿者</a></th>
-                <th><a href="#" @click.prevent.stop="fetchposts('/api/posts','content')" >本文</a></th>
-                <th><a href="#" @click.prevent.stop="fetchposts('/api/posts','image')" >画像</a></th>
-                <th><a href="#" @click.prevent.stop="fetchposts('/api/posts','like')" >いいね</a></th>
+                <th><a href="#" @click.prevent.stop="fetchposts('/api/posts','user-name')">投稿者</a></th>
+                <th><a href="#" @click.prevent.stop="fetchposts('/api/posts','content')">本文</a></th>
+                <th><a href="#" @click.prevent.stop="fetchposts('/api/posts','image')">画像</a></th>
+                <th><a href="#" @click.prevent.stop="fetchposts('/api/posts','like')">いいね</a></th>
                 <th></th>
             </tr>
-            <tr v-for="post in posts.data">
+            <tr v-for="post in posts">
                 <td>{{post.user_id }}</td>
                 <td>{{post.content }}</td>
                 <td>
                     <img :src="imagePath(post)" width="100%">
                 </td>
                 <td v-if="post.isLiked">
-                    <button type="button" class="btn btn-success" @click="unlikepost(post.id)">いいね{{post.likesCount}}</button>
+                    <button type="button" class="btn btn-success"
+                        @click="unlikepost(post.id)">いいね{{post.likesCount}}</button>
                 </td>
                 <td v-else>
-                    <button type="button" class="btn btn-secondary" @click="likepost(post.id)">いいね</button>
+                    <button type="button" class="btn btn-secondary"
+                        @click="likepost(post.id)">いいね{{post.likesCount}}</button>
                 </td>
                 <td><button type="button" class="btn btn-danger" @click="deletepost(post.id)">削除</button></td>
             </tr>
@@ -51,20 +53,20 @@ export default {
         return {
             posts: [],
             pagination: {},
-            sort:string,
-            userName:"",
+            sort: string,
+            userName: "",
         };
     },
     created() {
-        this.fetchposts("/api/posts","id")
+        this.fetchposts("/api/posts", "id")
     },
     computed: {
     },
     methods: {
-        imagePath(post){
-            return '/storage/'+ post.image
+        imagePath(post) {
+            return '/storage/' + post.image
         },
-        fetchposts(url,sort) {
+        fetchposts(url, sort) {
             if (sort) {
                 this.sort = sort;
             }
@@ -75,33 +77,45 @@ export default {
             }
             )
                 .then(response => {
-                    this.posts = response.data
+                    this.posts = response.data.data
                     // 直接参照するとプロパティが定義されていないと警告がでるので一旦ローカルに保存する 
-                    this.userName = this.posts.user.name;
-                    this.pagination.current_page = this.posts.meta.current_page
-                    this.pagination.last_page = this.posts.meta.last_page
-                    this.pagination.next = this.posts.links.next
-                    this.pagination.prev = this.posts.links.prev                    
+                    this.userName = response.data.user.name;
+                    this.pagination.current_page = response.data.meta.current_page
+                    this.pagination.last_page = response.data.meta.last_page
+                    this.pagination.next = response.data.links.next
+                    this.pagination.prev = response.data.links.prev
                 })
                 .catch(error => { alert(error) })
+        },
+        post(postID) {
+            let retPost = null
+            this.posts.forEach(function (apost) {
+                if(apost.id == postID){
+                    retPost = apost
+                }
+            });
+            return retPost
         },
         likepost(postId) {
             let url = `/api/like/${postId}`
             Axios.post(url)
-                    .then(Response => {
-                        //リダイレクト
-                        location.href = "/"
-                    })
-                    .catch(error => { alert(error) })
+                .then(Response => {
+                    //リダイレクトしてしまうと画面がちらつくのでここで更新
+                    let post = this.post(postId)
+                    post.isLiked = true
+                    post.likesCount++
+                })
+                .catch(error => { alert(error) })
         },
         unlikepost(postId) {
             let url = `/api/unlike/${postId}`
             Axios.post(url)
-                    .then(Response => {
-                        //リダイレクト
-                        location.href = "/"
-                    })
-                    .catch(error => { alert(error) })
+                .then(Response => {
+                    let post = this.post(postId)
+                    post.isLiked = false
+                    post.likesCount--
+                })
+                .catch(error => { alert(error) })
         },
         editpost(postId) {
             let url = `/post/edit/${postId}`

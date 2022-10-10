@@ -37971,31 +37971,49 @@ __webpack_require__.r(__webpack_exports__);
           sort: this.sort
         }
       }).then(function (response) {
-        _this.posts = response.data; // 直接参照するとプロパティが定義されていないと警告がでるので一旦ローカルに保存する 
+        _this.posts = response.data.data; // 直接参照するとプロパティが定義されていないと警告がでるので一旦ローカルに保存する 
 
-        _this.userName = _this.posts.user.name;
-        _this.pagination.current_page = _this.posts.meta.current_page;
-        _this.pagination.last_page = _this.posts.meta.last_page;
-        _this.pagination.next = _this.posts.links.next;
-        _this.pagination.prev = _this.posts.links.prev;
+        _this.userName = response.data.user.name;
+        _this.pagination.current_page = response.data.meta.current_page;
+        _this.pagination.last_page = response.data.meta.last_page;
+        _this.pagination.next = response.data.links.next;
+        _this.pagination.prev = response.data.links.prev;
       })["catch"](function (error) {
         alert(error);
       });
     },
+    post: function post(postID) {
+      var retPost = null;
+      this.posts.forEach(function (apost) {
+        if (apost.id == postID) {
+          retPost = apost;
+        }
+      });
+      return retPost;
+    },
     likepost: function likepost(postId) {
+      var _this2 = this;
+
       var url = "/api/like/".concat(postId);
       axios__WEBPACK_IMPORTED_MODULE_1___default.a.post(url).then(function (Response) {
-        //リダイレクト
-        location.href = "/";
+        //リダイレクトしてしまうと画面がちらつくのでここで更新
+        var post = _this2.post(postId);
+
+        post.isLiked = true;
+        post.likesCount++;
       })["catch"](function (error) {
         alert(error);
       });
     },
     unlikepost: function unlikepost(postId) {
+      var _this3 = this;
+
       var url = "/api/unlike/".concat(postId);
       axios__WEBPACK_IMPORTED_MODULE_1___default.a.post(url).then(function (Response) {
-        //リダイレクト
-        location.href = "/";
+        var post = _this3.post(postId);
+
+        post.isLiked = false;
+        post.likesCount--;
       })["catch"](function (error) {
         alert(error);
       });
@@ -38350,7 +38368,7 @@ var render = function render() {
         return _vm.fetchposts("/api/posts", "like");
       }
     }
-  }, [_vm._v("いいね")])]), _vm._v(" "), _c("th")]), _vm._v(" "), _vm._l(_vm.posts.data, function (post) {
+  }, [_vm._v("いいね")])]), _vm._v(" "), _c("th")]), _vm._v(" "), _vm._l(_vm.posts, function (post) {
     return _c("tr", [_c("td", [_vm._v(_vm._s(post.user_id))]), _vm._v(" "), _c("td", [_vm._v(_vm._s(post.content))]), _vm._v(" "), _c("td", [_c("img", {
       attrs: {
         src: _vm.imagePath(post),
@@ -38376,7 +38394,7 @@ var render = function render() {
           return _vm.likepost(post.id);
         }
       }
-    }, [_vm._v("いいね")])]), _vm._v(" "), _c("td", [_c("button", {
+    }, [_vm._v("いいね" + _vm._s(post.likesCount))])]), _vm._v(" "), _c("td", [_c("button", {
       staticClass: "btn btn-danger",
       attrs: {
         type: "button"
