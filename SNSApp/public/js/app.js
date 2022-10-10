@@ -37892,30 +37892,34 @@ __webpack_require__.r(__webpack_exports__);
   computed: {},
   methods: {
     savepost: function savepost() {
-      var url = "/api/fileupload";
+      var date = new Date();
+      this.post.image = date.getTime(); //ユニーク名 this.fileInfo.name
+
+      var formData = new FormData();
+      formData.append('file', this.fileInfo);
+      formData.append('post', JSON.stringify(this.post));
+      var url = "/api/posts";
 
       if (confirm("送信してよろしいですか？")) {
-        axios__WEBPACK_IMPORTED_MODULE_0___default.a.post(url, {
-          post: this.post,
-          fileInfo: this.fileInfo
-        }).then(function (Response) {//リダイレクト
-          // location.href = "/"
+        axios__WEBPACK_IMPORTED_MODULE_0___default.a.post(url, formData).then(function (Response) {
+          //リダイレクト
+          location.href = "/";
         })["catch"](function (error) {
           alert(error);
         });
       }
     },
     uploadFile: function uploadFile(event) {
-      if (this.post.image.length) {
-        URL.revokeObjectURL(this.post.image);
+      if (this.imageurl.length) {
+        URL.revokeObjectURL(this.imageurl);
       }
 
       this.fileInfo = event.target.files[0];
 
       if (this.fileInfo != void 0) {
-        this.post.image = this.imageurl = URL.createObjectURL(this.fileInfo);
+        this.imageurl = URL.createObjectURL(this.fileInfo);
       } else {
-        this.post.image = this.imageurl = "";
+        this.imageurl = "";
       }
     }
   }
@@ -37944,13 +37948,17 @@ __webpack_require__.r(__webpack_exports__);
       posts: [],
       pagination: {},
       sort: _babel_template_lib_string__WEBPACK_IMPORTED_MODULE_0___default.a,
-      userName: _babel_template_lib_string__WEBPACK_IMPORTED_MODULE_0___default.a
+      userName: ""
     };
   },
   created: function created() {
     this.fetchposts("/api/posts", "id");
   },
+  computed: {},
   methods: {
+    imagePath: function imagePath(post) {
+      return '/storage/' + post.image;
+    },
     fetchposts: function fetchposts(url, sort) {
       var _this = this;
 
@@ -38198,7 +38206,8 @@ var render = function render() {
     attrs: {
       id: "content",
       name: "content",
-      rows: "4"
+      rows: "4",
+      required: ""
     },
     domProps: {
       value: _vm.post.content
@@ -38218,13 +38227,14 @@ var render = function render() {
     }
   }, [_vm._v("\n                    画像\n                ")]), _vm._v(" "), _vm.imageurl ? _c("div", [_c("img", {
     attrs: {
-      src: _vm.post.image,
+      src: _vm.imageurl,
       width: "100%"
     }
   })]) : _vm._e(), _vm._v(" "), _c("input", {
     staticClass: "form-control",
     attrs: {
       type: "file",
+      accept: "image/*",
       required: ""
     },
     on: {
@@ -38273,7 +38283,7 @@ var render = function render() {
 
   return _c("div", [_c("post-message", {
     attrs: {
-      title: "Post一覧",
+      title: "投稿一覧",
       content: _vm.userName + "さんのタイムライン"
     }
   }), _vm._v(" "), _c("table", {
@@ -38323,7 +38333,22 @@ var render = function render() {
       }
     }
   }, [_vm._v("いいね")])]), _vm._v(" "), _c("th"), _vm._v(" "), _c("th")]), _vm._v(" "), _vm._l(_vm.posts.data, function (post) {
-    return _c("tr", [_c("td", [_vm._v(_vm._s(post.user_id))]), _vm._v(" "), _c("td", [_vm._v(_vm._s(post.content))]), _vm._v(" "), _c("td", [_vm._v(_vm._s(post.image))]), _vm._v(" "), _c("td", [_vm._v(_vm._s(post.likes))]), _vm._v(" "), _c("td", [_c("button", {
+    return _c("tr", [_c("td", [_vm._v(_vm._s(post.user_id))]), _vm._v(" "), _c("td", [_vm._v(_vm._s(post.content))]), _vm._v(" "), _c("td", [_c("img", {
+      attrs: {
+        src: _vm.imagePath(post),
+        width: "100%"
+      }
+    })]), _vm._v(" "), _c("td", [_c("button", {
+      staticClass: "btn btn-primary",
+      attrs: {
+        type: "button"
+      },
+      on: {
+        click: function click($event) {
+          return _vm.likepost(post.id);
+        }
+      }
+    }, [_vm._v("いいね")])]), _vm._v(" "), _c("td", [_c("button", {
       staticClass: "btn btn-primary",
       attrs: {
         type: "button"

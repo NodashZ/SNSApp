@@ -41,12 +41,13 @@ class PostController extends Controller
     public function store(Request $request)
     {
         $post = new Post;
-        $form = $request->post;
-        $fileInfo = $request->fileInfo;
-        
-        // \Log::debug($fileInfo);
+        $form = json_decode($request->post,true);
+        $file_name = $form['image'];
+        request()->file->storeAs('public/', $file_name);
+
         $post->user_id = $request->user()->id;
         $post->fill($form)->save();
+
         return response()->json([]);
     }
 
@@ -86,6 +87,11 @@ class PostController extends Controller
      */
     public function destroy($id)
     {
+        $post = Post::find($id);
+        if (isset($post->image)) {
+            \Storage::disk('public')->delete($post->image);
+        }
+
         Post::destroy($id);
         return response()->json([
             "message" => "records deleted"
@@ -99,5 +105,4 @@ class PostController extends Controller
             "message" => "logout"
         ]);
     }
-    
 }

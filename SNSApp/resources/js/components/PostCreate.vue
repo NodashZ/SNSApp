@@ -9,16 +9,16 @@
                         内容
                     </label>
                     <textarea id="content" name="content" class="form-control" rows="4"
-                        v-model="post.content"></textarea>
+                        v-model="post.content" required></textarea>
                 </div>
                 <div class="form-group">
                     <label for="image">
                         画像
                     </label>
                     <div v-if="imageurl">
-                        <img :src="post.image" width="100%">
+                        <img :src="imageurl" width="100%">
                     </div>
-                    <input class="form-control" @change="uploadFile" type="file" required>
+                    <input class="form-control" @change="uploadFile" type="file" accept="image/*" required>
                 </div>
 
                 <div class="mt-5">
@@ -52,29 +52,33 @@ export default {
         
     },
     methods: {
-        savepost() {
-            let url = `/api/fileupload`
+        savepost() { 
+            let date = new Date()
+            this.post.image = date.getTime()  //ユニーク名 this.fileInfo.name
+
+            const formData = new FormData()
+            formData.append('file',this.fileInfo)
+            formData.append('post',JSON.stringify(this.post))
+
+            let url = `/api/posts`
             if (confirm("送信してよろしいですか？")) {
-                Axios.post(url, {
-                    post: this.post,
-                    fileInfo: this.fileInfo,
-                })
+                Axios.post(url, formData)
                     .then(Response => {
                         //リダイレクト
-                        // location.href = "/"
+                        location.href = "/"
                     })
                     .catch(error => { alert(error) })
             }
         },
         uploadFile(event) {
-            if (this.post.image.length){
-                URL.revokeObjectURL(this.post.image);
+            if (this.imageurl.length){
+                URL.revokeObjectURL(this.imageurl);
             }
             this.fileInfo = event.target.files[0];
             if(this.fileInfo != void 0) {
-                this.post.image = this.imageurl = URL.createObjectURL(this.fileInfo)
+                this.imageurl = URL.createObjectURL(this.fileInfo)
             } else {
-                this.post.image = this.imageurl = ""
+                this.imageurl = ""
             }
         }
     }
