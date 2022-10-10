@@ -37982,6 +37982,24 @@ __webpack_require__.r(__webpack_exports__);
         alert(error);
       });
     },
+    likepost: function likepost(postId) {
+      var url = "/api/like/".concat(postId);
+      axios__WEBPACK_IMPORTED_MODULE_1___default.a.post(url).then(function (Response) {
+        //リダイレクト
+        location.href = "/";
+      })["catch"](function (error) {
+        alert(error);
+      });
+    },
+    unlikepost: function unlikepost(postId) {
+      var url = "/api/unlike/".concat(postId);
+      axios__WEBPACK_IMPORTED_MODULE_1___default.a.post(url).then(function (Response) {
+        //リダイレクト
+        location.href = "/";
+      })["catch"](function (error) {
+        alert(error);
+      });
+    },
     editpost: function editpost(postId) {
       var url = "/post/edit/".concat(postId);
       location.href = url;
@@ -38332,14 +38350,24 @@ var render = function render() {
         return _vm.fetchposts("/api/posts", "like");
       }
     }
-  }, [_vm._v("いいね")])]), _vm._v(" "), _c("th"), _vm._v(" "), _c("th")]), _vm._v(" "), _vm._l(_vm.posts.data, function (post) {
+  }, [_vm._v("いいね")])]), _vm._v(" "), _c("th")]), _vm._v(" "), _vm._l(_vm.posts.data, function (post) {
     return _c("tr", [_c("td", [_vm._v(_vm._s(post.user_id))]), _vm._v(" "), _c("td", [_vm._v(_vm._s(post.content))]), _vm._v(" "), _c("td", [_c("img", {
       attrs: {
         src: _vm.imagePath(post),
         width: "100%"
       }
-    })]), _vm._v(" "), _c("td", [_c("button", {
-      staticClass: "btn btn-primary",
+    })]), _vm._v(" "), post.isLiked ? _c("td", [_c("button", {
+      staticClass: "btn btn-success",
+      attrs: {
+        type: "button"
+      },
+      on: {
+        click: function click($event) {
+          return _vm.unlikepost(post.id);
+        }
+      }
+    }, [_vm._v("いいね" + _vm._s(post.likesCount))])]) : _c("td", [_c("button", {
+      staticClass: "btn btn-secondary",
       attrs: {
         type: "button"
       },
@@ -38349,16 +38377,6 @@ var render = function render() {
         }
       }
     }, [_vm._v("いいね")])]), _vm._v(" "), _c("td", [_c("button", {
-      staticClass: "btn btn-primary",
-      attrs: {
-        type: "button"
-      },
-      on: {
-        click: function click($event) {
-          return _vm.editpost(post.id);
-        }
-      }
-    }, [_vm._v("編集")])]), _vm._v(" "), _c("td", [_c("button", {
       staticClass: "btn btn-danger",
       attrs: {
         type: "button"

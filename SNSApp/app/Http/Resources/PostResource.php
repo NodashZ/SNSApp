@@ -14,10 +14,12 @@ class PostResource extends JsonResource
      */
     public function toArray($request)
     {
-        // $retList = parent::toArray($request);
-        // $retList["user_name"] = $this->user->name;
-        // return  $retList;
-        
-        return parent::toArray($request);
+        $retList = parent::toArray($request);
+        $retList["isLiked"] = $this->isLiked();
+        $retList["likesCount"] = $this->likesCount();
+
+        return  $retList;
+
+        // return parent::toArray($request);
     }
 }

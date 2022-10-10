@@ -38,8 +38,39 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    //自分の投稿
     public function posts()
     {
         return $this->hasMany(Post::class);
+    }
+
+   //いいねした投稿
+    public function likePosts()
+    {
+        //Userモデルから中間テーブルのLike先のPostデータを取得
+        //belongsToMany('取得するモデル', '中間テーブルのテーブル名', '中間テーブル内でのこのモデルのID名', '中間テーブル内での取得するモデルのID名');
+        return $this->belongsToMany(Post::class,'likes','user_id','post_id')->withTimestamps();
+    }
+    public function isLike($postId)
+    {
+      return $this->likePosts()->where('post_id',$postId)->exists();
+    }
+
+    public function like($postId)
+    {
+      if($this->isLike($postId)){
+        //もし既に「いいね」していたら何もしない
+      } else {
+        $this->likePosts()->attach($postId);
+      }
+    }
+    
+    public function unlike($postId)
+    {
+      if($this->isLike($postId)){
+        //もし既に「いいね」していたら消す
+        $this->likePosts()->detach($postId);
+      } else {
+      }
     }
 }

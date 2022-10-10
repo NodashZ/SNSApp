@@ -1,6 +1,6 @@
 <template>
     <div>
-        <post-message title="Post一覧" :content='userName + "さんのタイムライン"'> </post-message>
+        <post-message title="投稿一覧" :content='userName + "さんのタイムライン"'> </post-message>
         <table class="table table-striped">
             <tr>
                 <th><a href="#" @click.prevent.stop="fetchposts('/api/posts','user-name')" >投稿者</a></th>
@@ -8,14 +8,19 @@
                 <th><a href="#" @click.prevent.stop="fetchposts('/api/posts','image')" >画像</a></th>
                 <th><a href="#" @click.prevent.stop="fetchposts('/api/posts','like')" >いいね</a></th>
                 <th></th>
-                <th></th>
             </tr>
             <tr v-for="post in posts.data">
                 <td>{{post.user_id }}</td>
                 <td>{{post.content }}</td>
-                <td>{{post.image }}</td>
-                <td>{{post.likes }}</td>
-                <td><button type="button" class="btn btn-primary" @click="editpost(post.id)">編集</button></td>
+                <td>
+                    <img :src="imagePath(post)" width="100%">
+                </td>
+                <td v-if="post.isLiked">
+                    <button type="button" class="btn btn-success" @click="unlikepost(post.id)">いいね{{post.likesCount}}</button>
+                </td>
+                <td v-else>
+                    <button type="button" class="btn btn-secondary" @click="likepost(post.id)">いいね</button>
+                </td>
                 <td><button type="button" class="btn btn-danger" @click="deletepost(post.id)">削除</button></td>
             </tr>
         </table>
@@ -47,13 +52,18 @@ export default {
             posts: [],
             pagination: {},
             sort:string,
-            userName:string,
+            userName:"",
         };
     },
     created() {
         this.fetchposts("/api/posts","id")
     },
+    computed: {
+    },
     methods: {
+        imagePath(post){
+            return '/storage/'+ post.image
+        },
         fetchposts(url,sort) {
             if (sort) {
                 this.sort = sort;
@@ -74,6 +84,24 @@ export default {
                     this.pagination.prev = this.posts.links.prev                    
                 })
                 .catch(error => { alert(error) })
+        },
+        likepost(postId) {
+            let url = `/api/like/${postId}`
+            Axios.post(url)
+                    .then(Response => {
+                        //リダイレクト
+                        location.href = "/"
+                    })
+                    .catch(error => { alert(error) })
+        },
+        unlikepost(postId) {
+            let url = `/api/unlike/${postId}`
+            Axios.post(url)
+                    .then(Response => {
+                        //リダイレクト
+                        location.href = "/"
+                    })
+                    .catch(error => { alert(error) })
         },
         editpost(postId) {
             let url = `/post/edit/${postId}`
