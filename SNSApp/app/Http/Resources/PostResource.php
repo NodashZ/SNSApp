@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use App\User;
 
 class PostResource extends JsonResource
 {
@@ -17,6 +18,9 @@ class PostResource extends JsonResource
         $retList = parent::toArray($request);
         $retList["isLiked"] = $this->isLiked();
         $retList["likesCount"] = $this->likesCount();
+
+        $user = User::findOrFail($this->user_id);
+        $retList["userName"] = $user->name;
 
         return  $retList;
 

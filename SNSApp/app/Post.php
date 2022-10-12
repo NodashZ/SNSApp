@@ -15,7 +15,7 @@ class Post extends Model
     }
 
     //この投稿にいいねしているユーザー一覧
-    public function likedUsers()
+    public function likes()
     {
         //belongsToMany('取得するモデル', '中間テーブルのテーブル名', '中間テーブル内でのこのモデルのID名', '中間テーブル内での取得するモデルのID名');
         return $this->belongsToMany(User::class,'likes','post_id','user_id')->withTimestamps();
@@ -23,7 +23,7 @@ class Post extends Model
     
     public function likesCount()
     {
-        $likes = $this->likedUsers();
+        $likes = $this->likes();
 
         if ( $likes){
             return $likes->count();
@@ -35,7 +35,7 @@ class Post extends Model
     //ログインユーザーがいいねしているか
     public function isLiked()
     {
-        return $this->likedUsers()->where('user_id',$this->user->id)->exists();
+        return $this->likes()->where('user_id',$this->user->id)->exists();
     }
 
 }

@@ -22,7 +22,12 @@ class PostController extends Controller
         if (isset($userId)) {
             $posts = $request->user()->posts();
             if (isset($sort)) {
-                $posts = $posts->orderBy($sort, 'asc');
+                if($sort == "likes_count") {
+                    //withCountは引数と同じ名前の関数(Post:likes)のcountを"引数_count"(likes_count)として持つようにする
+                    $posts = $posts->withCount('likes')->orderBy($sort, 'desc');
+                } else {
+                    $posts = $posts->orderBy($sort, 'asc');
+                }
             }
             $posts = $posts->paginate(3);
         } else {

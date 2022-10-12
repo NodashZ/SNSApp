@@ -28,7 +28,7 @@ export default {
     methods: {
         logout() {
             let url = `/logout`
-            Axios.get(url)
+            Axios.post(url)
                 .then(Response => {
                     //リダイレクト
                     location.href = "/"

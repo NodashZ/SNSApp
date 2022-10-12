@@ -23,5 +23,5 @@ Route::group(['middleware' => 'auth'], function () {
 });
 Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
-Route::get('/logout', 'PostController@logout');  
+Route::post('/logout', 'PostController@logout');  
 
