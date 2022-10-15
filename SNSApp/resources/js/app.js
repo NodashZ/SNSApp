@@ -22,6 +22,7 @@ window.Vue = require('vue');
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 Vue.component('header-component', require('./components/Header.vue').default);
 Vue.component('post-create', require('./components/PostCreate.vue').default);
+Vue.component('post-edit', require('./components/PostEdit.vue').default);
 Vue.component('post-list', require('./components/PostList.vue').default);
 Vue.component('post-message', require('./components/Message.vue').default);
 Vue.component('post-component', require('./components/PostComponent.vue').default);

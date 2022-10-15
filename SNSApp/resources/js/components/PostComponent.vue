@@ -6,8 +6,10 @@
                     <div class="container">
                         <div class="row justify-content-between">
                             <div>投稿者: {{post.userName }}</div>
-                            <button type="button" class="btn btn-success"
+                            <div v-if="!myPost">
+                                <button type="button" class="btn btn-success"
                                 @click="unfollow(post.user_id)">フォロー解除</button>
+                            </div>
                         </div>
                     </div>
 
@@ -24,8 +26,10 @@
                                 <button type="button" class="btn btn-secondary"
                                     @click="likepost(post.id)">いいね{{post.likesCount}}</button>
                             </div>
-                            <td><button type="button" class="btn btn-danger" @click="deletepost(post.id)">削除</button>
-                            </td>
+                            <div v-if="myPost">
+                                <button type="button" class="btn btn-primary" @click="editpost(post.id)">編集</button>
+                                <button type="button" class="btn btn-danger" @click="deletepost(post.id)">削除</button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -40,6 +44,7 @@ import Axios from 'axios'
 export default {
     props: {
         post: {},
+        cur_user: Number,
     },
     data() {
         return {
@@ -49,10 +54,16 @@ export default {
     mounted() {
         // console.log('Component mounted.')
     },
+    computed: {
+        myPost(){
+            return (this.cur_user == this.post.user_id)
+        },
+    },
     methods: {
         imagePath(post) {
             return '/storage/' + post.image
         },
+        
         likepost(postId) {
             let url = `/api/like/${postId}`
             Axios.post(url)

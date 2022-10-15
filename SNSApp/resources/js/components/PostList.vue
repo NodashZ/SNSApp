@@ -11,7 +11,7 @@
         </table>
 
         <div v-for="post in posts">
-            <post-component :post="post"></post-component>
+            <post-component :post="post" :cur_user="userID"></post-component>
         </div>
 
         <nav class="navbar navbar-expands-sm navbar-dark mb-2">
@@ -43,6 +43,7 @@ export default {
             pagination: {},
             sort: string,
             userName: "",
+            userID: 0,
         };
     },
     created() {
@@ -65,6 +66,7 @@ export default {
                     this.posts = response.data.data
                     // 直接参照するとプロパティが定義されていないと警告がでるので一旦ローカルに保存する 
                     this.userName = response.data.user.name;
+                    this.userID = response.data.user.id;
                     this.pagination.current_page = response.data.meta.current_page
                     this.pagination.last_page = response.data.meta.last_page
                     this.pagination.next = response.data.links.next

@@ -72,18 +72,39 @@ class PostController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Post  $post
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Post $post, int $id)
+    public function update(Request $request, int $id)
     {
         $post = Post::find($id);
         $form = $request->post;
-        // unset($form['_token']);
+        
         $post->fill($form)->save();
+
         return response()->json([]);
     }
 
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Post  $post
+     * @return \Illuminate\Http\Response
+   
+    public function update(Request $request, Post $post, int $id)
+    {
+        $post = Post::find($id);
+        $form = json_decode($request->post,true);
+        $file_name = $form['image'];
+        request()->file->storeAs('public/', $file_name);
+
+        $post->user_id = $request->user()->id;
+        $post->fill($form)->save();
+
+        return response()->json([]);
+    }
+  */
     /**
      * Remove the specified resource from storage.
      *
