@@ -38080,15 +38080,37 @@ __webpack_require__.r(__webpack_exports__);
       posts: [],
       pagination: {},
       sort: _babel_template_lib_string__WEBPACK_IMPORTED_MODULE_0___default.a,
-      userName: "",
+      user: {},
       userID: 0
     };
   },
   created: function created() {
     this.fetchposts("/api/posts", "id");
   },
-  computed: {},
+  computed: {
+    followsCount: function followsCount() {
+      var count = 0;
+
+      if (this.user.follows) {
+        count = this.user.follows.length;
+      }
+
+      return count;
+    },
+    followersCount: function followersCount() {
+      var count = 0;
+
+      if (this.user.followers) {
+        count = this.user.followers.length;
+      }
+
+      return count;
+    }
+  },
   methods: {
+    click: function click() {
+      alert("error");
+    },
     fetchposts: function fetchposts(url, sort) {
       var _this = this;
 
@@ -38103,12 +38125,12 @@ __webpack_require__.r(__webpack_exports__);
       }).then(function (response) {
         _this.posts = response.data.data; // 直接参照するとプロパティが定義されていないと警告がでるので一旦ローカルに保存する 
 
-        _this.userName = response.data.user.name;
+        _this.user = response.data.user;
         _this.userID = response.data.user.id;
         _this.pagination.current_page = response.data.meta.current_page;
         _this.pagination.last_page = response.data.meta.last_page;
         _this.pagination.next = response.data.links.next;
-        _this.pagination.prev = response.data.links.prev;
+        _this.pagination.prev = response.data.links.prev; // alert(JSON.stringify(response.data.user))
       })["catch"](function (error) {
         alert(error);
       });
@@ -38300,7 +38322,7 @@ var render = function render() {
     staticClass: "container"
   }, [_c("div", {
     staticClass: "row justify-content-between"
-  }, [_c("div", [_vm._v("投稿者: " + _vm._s(_vm.post.userName))]), _vm._v(" "), !_vm.myPost ? _c("div", [_c("button", {
+  }, [_c("div", [_vm._v("投稿者: " + _vm._s(_vm.post.user.name))]), _vm._v(" "), !_vm.myPost ? _c("div", [_c("button", {
     staticClass: "btn btn-success",
     attrs: {
       type: "button"
@@ -38593,45 +38615,75 @@ var render = function render() {
 
   return _c("div", [_c("post-message", {
     attrs: {
-      title: "投稿一覧",
-      content: _vm.userName + "さんのタイムライン"
+      title: _vm.user.name + "さんのタイムライン",
+      content: ""
     }
-  }), _vm._v(" "), _c("table", {
-    staticClass: "table table-striped"
-  }, [_c("tr", [_c("th", [_vm._v("並びかえ")]), _vm._v(" "), _c("th", [_c("a", {
+  }), _vm._v(" "), _c("nav", {
+    staticClass: "navbar navbar-expand-sm navbar-light bg-light"
+  }, [_c("div", {
+    staticClass: "collapse navbar-collapse",
+    attrs: {
+      id: "navbarSupportedContent"
+    }
+  }, [_c("ul", {
+    staticClass: "navbar-nav mr-auto"
+  }, [_c("li", {
+    staticClass: "nav-item"
+  }, [_c("a", {
+    staticClass: "nav-link",
     attrs: {
       href: "#"
-    },
+    }
+  }, [_vm._v(_vm._s(_vm.followsCount) + "フォロー")])]), _vm._v(" "), _c("li", {
+    staticClass: "nav-item"
+  }, [_c("a", {
+    staticClass: "nav-link",
+    attrs: {
+      href: "#"
+    }
+  }, [_vm._v(_vm._s(_vm.followersCount) + "フォロワー")])]), _vm._v(" "), _vm._m(0), _vm._v(" "), _c("li", {
+    staticClass: "nav-item dropdown"
+  }, [_c("a", {
+    staticClass: "nav-link dropdown-toggle",
+    attrs: {
+      href: "#",
+      id: "navbarDropdown",
+      role: "button",
+      "data-toggle": "dropdown"
+    }
+  }, [_vm._v("並びかえ")]), _vm._v(" "), _c("div", {
+    staticClass: "dropdown-menu",
+    attrs: {
+      "aria-labelledby": "navbarDropdown"
+    }
+  }, [_c("button", {
+    staticClass: "dropdown-item",
     on: {
       click: function click($event) {
-        $event.preventDefault();
-        $event.stopPropagation();
         return _vm.fetchposts("/api/posts", "user_id");
       }
     }
-  }, [_vm._v("投稿者")])]), _vm._v(" "), _c("th", [_c("a", {
+  }, [_vm._v("投稿者")]), _vm._v(" "), _c("button", {
+    staticClass: "dropdown-item",
     attrs: {
       href: "#"
     },
     on: {
       click: function click($event) {
-        $event.preventDefault();
-        $event.stopPropagation();
         return _vm.fetchposts("/api/posts", "updated_at");
       }
     }
-  }, [_vm._v("更新日")])]), _vm._v(" "), _c("th", [_c("a", {
+  }, [_vm._v("更新日")]), _vm._v(" "), _c("button", {
+    staticClass: "dropdown-item",
     attrs: {
       href: "#"
     },
     on: {
       click: function click($event) {
-        $event.preventDefault();
-        $event.stopPropagation();
         return _vm.fetchposts("/api/posts", "likes_count");
       }
     }
-  }, [_vm._v("いいね")])])])]), _vm._v(" "), _vm._l(_vm.posts, function (post) {
+  }, [_vm._v("いいね")])])])])])]), _vm._v(" "), _vm._l(_vm.posts, function (post) {
     return _c("div", [_c("post-component", {
       attrs: {
         post: post,
@@ -38682,7 +38734,19 @@ var render = function render() {
   }, [_vm._v("次")])])])])], 2);
 };
 
-var staticRenderFns = [];
+var staticRenderFns = [function () {
+  var _vm = this,
+      _c = _vm._self._c;
+
+  return _c("li", {
+    staticClass: "nav-item"
+  }, [_c("a", {
+    staticClass: "nav-link",
+    attrs: {
+      href: "/post/create"
+    }
+  }, [_vm._v("新規投稿")])]);
+}];
 render._withStripped = true;
 
 

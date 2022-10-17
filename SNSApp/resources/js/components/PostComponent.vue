@@ -5,7 +5,7 @@
                 <div class="card">
                     <div class="container">
                         <div class="row justify-content-between">
-                            <div>投稿者: {{post.userName }}</div>
+                            <div>投稿者: {{post.user.name }}</div>
                             <div v-if="!myPost">
                                 <button type="button" class="btn btn-success"
                                 @click="unfollow(post.user_id)">フォロー解除</button>
