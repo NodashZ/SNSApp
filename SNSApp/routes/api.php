@@ -19,13 +19,19 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::middleware('auth:api')->group(function () {
     Route::get('/posts', 'PostController@index');
     Route::post('/posts', 'PostController@store');
-    Route::post('fileupload',function(){
+    Route::post('fileupload', function () {
         dd(request()->all());
     });
     Route::get('/posts/{id}', 'PostController@show');
     Route::put('/posts/{id}', 'PostController@update');
     Route::delete('/posts/{id}', 'PostController@destroy');
 
-    Route::post('/like/{postId}','LikeController@store');
-    Route::post('/unlike/{postId}','LikeController@destroy');
+    Route::post('/like/{postId}', 'LikeController@store');
+    Route::post('/unlike/{postId}', 'LikeController@destroy');
+
+    Route::post('/follow/{postId}', 'FollowController@follow');
+    Route::post('/unfollow/{postId}', 'FollowController@unfollow');
+
+    Route::get('/users', 'UserController@index');
+
 });

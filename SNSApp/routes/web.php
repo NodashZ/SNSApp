@@ -20,6 +20,10 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/post/edit/{id}', function () {
         return view('post.edit');
     });
+
+    Route::get('/user/follows', function () {
+        return view('user.follows');
+    });
 });
 Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
