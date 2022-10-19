@@ -37823,7 +37823,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      users: []
+      users: [],
+      curUser: {}
     };
   },
   created: function created() {
@@ -37831,8 +37832,52 @@ __webpack_require__.r(__webpack_exports__);
   },
   computed: {},
   methods: {
-    click: function click() {
-      alert("error");
+    isfollow: function isfollow(user) {
+      var curId = this.curUser.id;
+      var retVal = false; //  alert(JSON.stringify(user.followers))
+
+      if (user.followers) {
+        user.followers.forEach(function (user) {
+          if (user.id == curId) {
+            retVal = true;
+          }
+        });
+      }
+
+      return retVal;
+    },
+    isFollwerStr: function isFollwerStr(user) {
+      var curId = this.curUser.id;
+      var retVal = "フォローされていません"; //  alert(JSON.stringify(user.followers))
+
+      if (user.follows) {
+        user.follows.forEach(function (user) {
+          if (user.id == curId) {
+            retVal = "フォローされています";
+          }
+        });
+      }
+
+      return retVal;
+    },
+    follow: function follow(userId) {
+      var url = "/api/follow/".concat(userId);
+      axios__WEBPACK_IMPORTED_MODULE_0___default.a.post(url).then(function (Response) {
+        //リダイレクトしてしまうと画面がちらつくのでここで更新
+        // this.post.isLiked = true
+        location.href = "/user/follows";
+      })["catch"](function (error) {
+        alert(error);
+      });
+    },
+    unfollow: function unfollow(userId) {
+      var url = "/api/unfollow/".concat(userId);
+      axios__WEBPACK_IMPORTED_MODULE_0___default.a.post(url).then(function (Response) {
+        // this.post.isLiked = false
+        location.href = "/user/follows";
+      })["catch"](function (error) {
+        alert(error);
+      });
     },
     fetchUsers: function fetchUsers(url) {
       var _this = this;
@@ -37843,10 +37888,12 @@ __webpack_require__.r(__webpack_exports__);
         }
       }).then(function (response) {
         _this.users = response.data.data;
+        _this.curUser = response.data.user;
       })["catch"](function (error) {
         alert(error);
       });
-    }
+    },
+    blockUser: function blockUser(userId) {}
   }
 });
 
@@ -38248,24 +38295,34 @@ var render = function render() {
   }), _vm._v(" "), _c("table", {
     staticClass: "table table-striped"
   }, [_vm._m(0), _vm._v(" "), _vm._l(_vm.users, function (user) {
-    return _c("tr", [_c("td", [_vm._v(_vm._s(user.name))]), _vm._v(" "), _c("td", [_vm._v(_vm._s(user.isFollower))]), _vm._v(" "), _c("td", [_c("button", {
-      staticClass: "btn btn-primary",
+    return _c("tr", [_c("td", [_vm._v(_vm._s(user.name))]), _vm._v(" "), _c("td", [_vm._v(_vm._s(_vm.isFollwerStr(user)))]), _vm._v(" "), _vm.isfollow(user) ? _c("td", [_c("button", {
+      staticClass: "btn btn-success",
       attrs: {
         type: "button"
       },
       on: {
         click: function click($event) {
-          return _vm.editTodo(_vm.todo.id);
+          return _vm.unfollow(user.id);
         }
       }
-    }, [_vm._v("フォロー")])]), _vm._v(" "), _c("td", [_c("button", {
+    }, [_vm._v("フォロー解除")])]) : _c("td", [_c("button", {
+      staticClass: "btn btn-secondary",
+      attrs: {
+        type: "button"
+      },
+      on: {
+        click: function click($event) {
+          return _vm.follow(user.id);
+        }
+      }
+    }, [_vm._v("フォローする")])]), _vm._v(" "), _c("td", [_c("button", {
       staticClass: "btn btn-danger",
       attrs: {
         type: "button"
       },
       on: {
         click: function click($event) {
-          return _vm.deleteTodo(_vm.todo.id);
+          return _vm.blockUser(user.id);
         }
       }
     }, [_vm._v("ブロック")])])]);
@@ -38276,7 +38333,7 @@ var staticRenderFns = [function () {
   var _vm = this,
       _c = _vm._self._c;
 
-  return _c("tr", [_c("th", [_vm._v("ユーザー名")]), _vm._v(" "), _c("th", [_vm._v("フォロワー")]), _vm._v(" "), _c("th"), _vm._v(" "), _c("th")]);
+  return _c("tr", [_c("th", [_vm._v("ユーザー名")]), _vm._v(" "), _c("th"), _vm._v(" "), _c("th"), _vm._v(" "), _c("th")]);
 }];
 render._withStripped = true;
 

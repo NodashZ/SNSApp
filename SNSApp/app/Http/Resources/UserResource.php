@@ -16,8 +16,8 @@ class UserResource extends JsonResource
     public function toArray($request)
     {
         $retList = parent::toArray($request);
-        $retList["follows"] = $this->follows();
-        $retList["followers"] = $this->followers();
+        $retList["follows"] = $this->follows()->get();
+        $retList["followers"] = $this->followers()->get();
 
         return  $retList;
     }

@@ -29,8 +29,8 @@ Route::middleware('auth:api')->group(function () {
     Route::post('/like/{postId}', 'LikeController@store');
     Route::post('/unlike/{postId}', 'LikeController@destroy');
 
-    Route::post('/follow/{postId}', 'FollowController@follow');
-    Route::post('/unfollow/{postId}', 'FollowController@unfollow');
+    Route::post('/follow/{userId}', 'FollowController@follow');
+    Route::post('/unfollow/{userId}', 'FollowController@unfollow');
 
     Route::get('/users', 'UserController@index');
 

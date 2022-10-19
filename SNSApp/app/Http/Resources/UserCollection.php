@@ -4,9 +4,9 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\ResourceCollection;
 use Illuminate\Support\Facades\Auth;
-use App\Http\Resources\PostResource;
+use App\Http\Resources\UserResource;
 
-class PostCollection extends ResourceCollection
+class UserCollection extends ResourceCollection
 {
     /**
      * Transform the resource collection into an array.
@@ -17,8 +17,7 @@ class PostCollection extends ResourceCollection
     public function toArray($request)
     {
         return [
-            // 'data' => $this->collection,
-            'data' => PostResource::collection($this->collection),
+            'data' => UserResource::collection($this->collection),
             'user' => new UserResource(Auth::user()),
         ];
     }
