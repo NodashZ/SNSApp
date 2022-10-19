@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Post;
 use Illuminate\Http\Request;
 use App\Http\Resources\PostCollection;
-use App\Http\Resources\PostResource;
 use Illuminate\Support\Facades\Auth;
 
 class PostController extends Controller
@@ -62,7 +61,7 @@ class PostController extends Controller
      * @param  \App\Post  $post
      * @return \Illuminate\Http\Response
      */
-    public function show(Post $post, int $id)
+    public function show(int $id)
     {
         $item = Post::findOrFail($id);
         return new PostResource($item);

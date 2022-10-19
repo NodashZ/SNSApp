@@ -38481,7 +38481,7 @@ var render = function render() {
     staticClass: "container"
   }, [_c("div", {
     staticClass: "row justify-content-between"
-  }, [_c("div", [_vm._v("投稿者: " + _vm._s(_vm.post.user.name))]), _vm._v(" "), !_vm.myPost ? _c("div", [_c("button", {
+  }, [_c("div", [_vm._v("投稿者: " + _vm._s(_vm.post.userName))]), _vm._v(" "), !_vm.myPost ? _c("div", [_c("button", {
     staticClass: "btn btn-success",
     attrs: {
       type: "button"

@@ -21,10 +21,8 @@ class PostResource extends JsonResource
         $retList["likesCount"] = $this->likesCount();
 
         $user = User::findOrFail($this->user_id);
-        $retList["user"] = new UserResource($user);
+        $retList["userName"] = $user->name;
 
         return  $retList;
-
-        // return parent::toArray($request);
     }
 }
