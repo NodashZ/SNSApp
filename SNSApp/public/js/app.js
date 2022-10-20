@@ -38315,17 +38315,7 @@ var render = function render() {
           return _vm.follow(user.id);
         }
       }
-    }, [_vm._v("フォローする")])]), _vm._v(" "), _c("td", [_c("button", {
-      staticClass: "btn btn-danger",
-      attrs: {
-        type: "button"
-      },
-      on: {
-        click: function click($event) {
-          return _vm.blockUser(user.id);
-        }
-      }
-    }, [_vm._v("ブロック")])])]);
+    }, [_vm._v("フォローする")])])]);
   })], 2)], 1);
 };
 
@@ -38333,7 +38323,7 @@ var staticRenderFns = [function () {
   var _vm = this,
       _c = _vm._self._c;
 
-  return _c("tr", [_c("th", [_vm._v("ユーザー名")]), _vm._v(" "), _c("th"), _vm._v(" "), _c("th"), _vm._v(" "), _c("th")]);
+  return _c("tr", [_c("th", [_vm._v("ユーザー名")]), _vm._v(" "), _c("th"), _vm._v(" "), _c("th")]);
 }];
 render._withStripped = true;
 

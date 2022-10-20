@@ -7,7 +7,6 @@
                 <th>ユーザー名</th>
                 <th></th>
                 <th></th>
-                <th></th>
             </tr>
             <tr v-for="user in users">
                 <td>{{user.name }}</td>
@@ -20,7 +19,6 @@
                     <button type="button" class="btn btn-secondary"
                         @click="follow(user.id)">フォローする</button>
                 </td>
-                <td><button type="button" class="btn btn-danger" @click="blockUser(user.id)">ブロック</button></td>
             </tr>
         </table>
 

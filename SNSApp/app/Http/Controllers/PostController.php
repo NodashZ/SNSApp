@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Post;
 use Illuminate\Http\Request;
 use App\Http\Resources\PostCollection;
+use App\Http\Resources\PostResource;
 use Illuminate\Support\Facades\Auth;
 
 class PostController extends Controller
@@ -19,7 +20,9 @@ class PostController extends Controller
         $sort = $request->sort;
         $userId = $request->user()->id;
         if (isset($userId)) {
-            $posts = $request->user()->posts();
+            // $posts = $request->user()->posts();
+            $posts = $request->user()->timeline();
+            
             if (isset($sort)) {
                 if($sort == "likes_count") {
                     //withCountは引数と同じ名前の関数(Post:likes)のcountを"引数_count"(likes_count)として持つようにする
