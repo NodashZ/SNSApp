@@ -46,8 +46,6 @@ class User extends Authenticatable
     //自分とフォローの投稿一覧
     public function timeline()
     {
-        // return $this->hasMany(Post::class);
-
         return Post::query()->whereIn('user_id', $this->follows()->pluck('user_id'))->orWhere('user_id', $this->id);
     }
 
