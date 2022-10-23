@@ -8,7 +8,7 @@
                             <div>投稿者: {{post.userName }}</div>
                             <div v-if="!myPost">
                                 <button type="button" class="btn btn-success"
-                                @click="unfollow(post.user_id)">フォロー解除</button>
+                                    @click="unfollow(post.user_id)">フォロー解除</button>
                             </div>
                         </div>
                     </div>
@@ -55,7 +55,7 @@ export default {
         // console.log('Component mounted.')
     },
     computed: {
-        myPost(){
+        myPost() {
             return (this.cur_user == this.post.user_id)
         },
     },
@@ -63,7 +63,7 @@ export default {
         imagePath(post) {
             return '/storage/' + post.image
         },
-        
+
         likepost(postId) {
             let url = `/api/like/${postId}`
             Axios.post(url)
@@ -98,7 +98,15 @@ export default {
                     })
                     .catch(error => { alert(error) })
             }
-        }
+        },
+        unfollow(userId) {
+            let url = `/api/unfollow/${userId}`
+            Axios.post(url)
+                .then(Response => {
+                    location.href = "/"
+                })
+                .catch(error => { alert(error) })
+        },
     }
 }
 </script>

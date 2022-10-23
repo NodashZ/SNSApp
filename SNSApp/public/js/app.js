@@ -38026,6 +38026,14 @@ __webpack_require__.r(__webpack_exports__);
           alert(error);
         });
       }
+    },
+    unfollow: function unfollow(userId) {
+      var url = "/api/unfollow/".concat(userId);
+      axios__WEBPACK_IMPORTED_MODULE_0___default.a.post(url).then(function (Response) {
+        location.href = "/";
+      })["catch"](function (error) {
+        alert(error);
+      });
     }
   }
 });
