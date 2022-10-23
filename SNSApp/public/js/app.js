@@ -38127,7 +38127,11 @@ __webpack_require__.r(__webpack_exports__);
     var url = "/api/posts/".concat(this.postId);
     this.fetchTodo(url);
   },
-  computed: {},
+  computed: {
+    imageName: function imageName() {
+      return this.fileInfo ? this.fileInfo.name : "変更なし";
+    }
+  },
   methods: {
     fetchTodo: function fetchTodo(url) {
       var _this = this;
@@ -38141,6 +38145,16 @@ __webpack_require__.r(__webpack_exports__);
     },
     updatepost: function updatepost() {
       var url = "/api/posts/".concat(this.postId);
+      var formData = new FormData();
+
+      if (this.fileInfo) {
+        var date = new Date();
+        this.post.image = date.getTime(); //ユニーク名 this.fileInfo.name
+
+        formData.append('file', this.fileInfo);
+      }
+
+      formData.append('post', JSON.stringify(this.post));
 
       if (confirm("更新してよろしいですか？")) {
         axios__WEBPACK_IMPORTED_MODULE_0___default.a.put(url, {
@@ -38152,6 +38166,19 @@ __webpack_require__.r(__webpack_exports__);
           alert(error);
         });
       }
+    },
+    uploadFile: function uploadFile(event) {
+      if (event.target.files[0] == void 0) {
+        return;
+      }
+
+      this.fileInfo = event.target.files[0];
+
+      if (this.imageurl.length) {
+        URL.revokeObjectURL(this.imageurl);
+      }
+
+      this.imageurl = URL.createObjectURL(this.fileInfo);
     }
   }
 });
@@ -38729,10 +38756,43 @@ var render = function render() {
       src: _vm.imageurl,
       width: "100%"
     }
-  })]) : _vm._e()]), _vm._v(" "), _vm._m(0)])], 1)]);
+  })]) : _vm._e(), _vm._v(" "), _c("div", {
+    staticClass: "input-group mb-3"
+  }, [_vm._m(0), _vm._v(" "), _c("div", {
+    staticClass: "custom-file"
+  }, [_c("input", {
+    staticClass: "custom-file-input",
+    attrs: {
+      type: "file",
+      accept: "image/*",
+      id: "inputGroupFile01",
+      "aria-describedby": "inputGroupFileAddon01"
+    },
+    on: {
+      change: _vm.uploadFile
+    }
+  }), _vm._v(" "), _c("label", {
+    staticClass: "custom-file-label",
+    attrs: {
+      "for": "inputGroupFile01",
+      "data-browse": "参照"
+    }
+  }, [_vm._v(_vm._s(_vm.imageName))])])])]), _vm._v(" "), _vm._m(1)])], 1)]);
 };
 
 var staticRenderFns = [function () {
+  var _vm = this,
+      _c = _vm._self._c;
+
+  return _c("div", {
+    staticClass: "input-group-prepend"
+  }, [_c("span", {
+    staticClass: "input-group-text",
+    attrs: {
+      id: "inputGroupFileAddon01"
+    }
+  }, [_vm._v("画像選択")])]);
+}, function () {
   var _vm = this,
       _c = _vm._self._c;
 

@@ -8,8 +8,8 @@
                     <label for="content">
                         内容
                     </label>
-                    <textarea id="content" name="content" class="form-control" rows="4"
-                        v-model="post.content" required></textarea>
+                    <textarea id="content" name="content" class="form-control" rows="4" v-model="post.content"
+                        required></textarea>
                 </div>
                 <div class="form-group">
                     <label for="image">
@@ -17,6 +17,17 @@
                     </label>
                     <div v-if="imageurl">
                         <img :src="imageurl" width="100%">
+                    </div>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="inputGroupFileAddon01">画像選択</span>
+                        </div>
+                        <div class="custom-file">
+                            <input type="file" class="custom-file-input" @change="uploadFile" accept="image/*"
+                                id="inputGroupFile01" aria-describedby="inputGroupFileAddon01">
+                            <label class="custom-file-label" for="inputGroupFile01"
+                                data-browse="参照">{{imageName}}</label>
+                        </div>
                     </div>
                 </div>
 
@@ -41,16 +52,19 @@ export default {
         return {
             postId: 0,
             post: {},
-            fileInfo:'',
-            imageurl:"",
+            fileInfo: '',
+            imageurl: "",
         };
     },
     created() {
         this.postId = location.pathname.substring(location.pathname.lastIndexOf('/') + 1)
         let url = `/api/posts/${this.postId}`
-        this.fetchTodo(url)    },
+        this.fetchTodo(url)
+    },
     computed: {
-        
+        imageName() {
+            return this.fileInfo ? this.fileInfo.name : "変更なし"
+        }
     },
     methods: {
         fetchTodo(url) {
@@ -61,12 +75,20 @@ export default {
                 })
                 .catch(error => { alert(error) })
         },
-        updatepost() { 
+        updatepost() {
             let url = `/api/posts/${this.postId}`
+            const formData = new FormData()
+            if (this.fileInfo) {
+                let date = new Date()
+                this.post.image = date.getTime()  //ユニーク名 this.fileInfo.name
+                formData.append('file', this.fileInfo)
+            }
+            formData.append('post', JSON.stringify(this.post))
+
             if (confirm("更新してよろしいですか？")) {
                 Axios.put(url, {
                     post: this.post,
-                   })
+                })
                     .then(Response => {
                         //リダイレクト
                         location.href = "/"
@@ -74,7 +96,16 @@ export default {
                     .catch(error => { alert(error) })
             }
         },
-        
+        uploadFile(event) {
+            if (event.target.files[0] == void 0) {
+                return
+            }
+            this.fileInfo = event.target.files[0];
+            if (this.imageurl.length) {
+                URL.revokeObjectURL(this.imageurl);
+            }
+            this.imageurl = URL.createObjectURL(this.fileInfo)
+        }
     }
 }
 
