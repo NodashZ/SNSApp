@@ -22,9 +22,9 @@ class PostController extends Controller
         if (isset($userId)) {
             // $posts = $request->user()->posts();
             $posts = $request->user()->timeline();
-            
+
             if (isset($sort)) {
-                if($sort == "likes_count") {
+                if ($sort == "likes_count") {
                     //withCountは引数と同じ名前の関数(Post:likes)のcountを"引数_count"(likes_count)として持つようにする
                     $posts = $posts->withCount('likes')->orderBy($sort, 'desc');
                 } else {
@@ -48,7 +48,7 @@ class PostController extends Controller
     public function store(Request $request)
     {
         $post = new Post;
-        $form = json_decode($request->post,true);
+        $form = json_decode($request->post, true);
         $file_name = $form['image'];
         request()->file->storeAs('public/', $file_name);
 
@@ -80,8 +80,16 @@ class PostController extends Controller
     public function update(Request $request, int $id)
     {
         $post = Post::find($id);
-        $form = $request->post;
-        
+        $form = json_decode($request->post, true);
+
+        if (request()->file) {
+            if (isset($post->image)) {
+                \Storage::disk('public')->delete($post->image);
+            }
+            $file_name = $form['image'];
+            request()->file->storeAs('public/', $file_name);
+        }
+
         $post->fill($form)->save();
 
         return response()->json([]);
@@ -106,7 +114,7 @@ class PostController extends Controller
 
         return response()->json([]);
     }
-  */
+     */
     /**
      * Remove the specified resource from storage.
      *

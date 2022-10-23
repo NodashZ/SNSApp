@@ -84,11 +84,10 @@ export default {
                 formData.append('file', this.fileInfo)
             }
             formData.append('post', JSON.stringify(this.post))
-
+            // alert(formData.get('post'))
+            
             if (confirm("更新してよろしいですか？")) {
-                Axios.put(url, {
-                    post: this.post,
-                })
+                Axios.put(url, formData)
                     .then(Response => {
                         //リダイレクト
                         location.href = "/"
