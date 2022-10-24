@@ -87,7 +87,7 @@ export default {
             // alert(formData.get('post'))
             
             if (confirm("更新してよろしいですか？")) {
-                Axios.put(url, formData)
+                Axios.post(url, formData)
                     .then(Response => {
                         //リダイレクト
                         location.href = "/"

@@ -38157,7 +38157,7 @@ __webpack_require__.r(__webpack_exports__);
       formData.append('post', JSON.stringify(this.post)); // alert(formData.get('post'))
 
       if (confirm("更新してよろしいですか？")) {
-        axios__WEBPACK_IMPORTED_MODULE_0___default.a.put(url, formData).then(function (Response) {
+        axios__WEBPACK_IMPORTED_MODULE_0___default.a.post(url, formData).then(function (Response) {
           //リダイレクト
           location.href = "/";
         })["catch"](function (error) {
