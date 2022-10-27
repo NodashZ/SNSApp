@@ -76,7 +76,7 @@ export default {
         },
         unlikepost(postId) {
             let url = `/api/unlike/${postId}`
-            Axios.post(url)
+            Axios.delete(url)
                 .then(Response => {
                     this.post.isLiked = false
                     this.post.likesCount--

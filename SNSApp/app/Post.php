@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use App\User;
+use App\Comment;
 use Illuminate\Support\Facades\Auth;
 
 class Post extends Model
@@ -39,4 +40,8 @@ class Post extends Model
         return $this->likes()->where('user_id',Auth::user()->id)->exists();
     }
 
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
+    }
 }

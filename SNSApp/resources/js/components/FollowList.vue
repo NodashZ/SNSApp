@@ -71,18 +71,15 @@ export default {
             let url = `/api/follow/${userId}`
             Axios.post(url)
                 .then(Response => {
-                    //リダイレクトしてしまうと画面がちらつくのでここで更新
-                    // this.post.isLiked = true
-                    location.href = "/user/follows"
+                    this.fetchUsers("/api/users")
                 })
                 .catch(error => { alert(error) })
         },
         unfollow(userId) {
             let url = `/api/unfollow/${userId}`
-            Axios.post(url)
+            Axios.delete(url)
                 .then(Response => {
-                    // this.post.isLiked = false
-                    location.href = "/user/follows"
+                    this.fetchUsers("/api/users")
                 })
                 .catch(error => { alert(error) })
         },

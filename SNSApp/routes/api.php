@@ -25,11 +25,13 @@ Route::middleware('auth:api')->group(function () {
     Route::delete('/posts/{id}', 'PostController@destroy');
 
     Route::post('/like/{postId}', 'LikeController@store');
-    Route::post('/unlike/{postId}', 'LikeController@destroy');
+    Route::delete('/unlike/{postId}', 'LikeController@destroy');
 
     Route::post('/follow/{userId}', 'FollowController@follow');
-    Route::post('/unfollow/{userId}', 'FollowController@unfollow');
+    Route::delete('/unfollow/{userId}', 'FollowController@unfollow');
 
     Route::get('/users', 'UserController@index');
 
+    Route::post('/comments/{commentId}', 'CommentController@store');
+    Route::delete('/comments/{commentId}', 'CommentController@destroy');
 });

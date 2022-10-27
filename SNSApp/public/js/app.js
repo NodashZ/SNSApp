@@ -37861,34 +37861,35 @@ __webpack_require__.r(__webpack_exports__);
       return retVal;
     },
     follow: function follow(userId) {
+      var _this = this;
+
       var url = "/api/follow/".concat(userId);
       axios__WEBPACK_IMPORTED_MODULE_0___default.a.post(url).then(function (Response) {
-        //リダイレクトしてしまうと画面がちらつくのでここで更新
-        // this.post.isLiked = true
-        location.href = "/user/follows";
+        _this.fetchUsers("/api/users");
       })["catch"](function (error) {
         alert(error);
       });
     },
     unfollow: function unfollow(userId) {
+      var _this2 = this;
+
       var url = "/api/unfollow/".concat(userId);
-      axios__WEBPACK_IMPORTED_MODULE_0___default.a.post(url).then(function (Response) {
-        // this.post.isLiked = false
-        location.href = "/user/follows";
+      axios__WEBPACK_IMPORTED_MODULE_0___default.a["delete"](url).then(function (Response) {
+        _this2.fetchUsers("/api/users");
       })["catch"](function (error) {
         alert(error);
       });
     },
     fetchUsers: function fetchUsers(url) {
-      var _this = this;
+      var _this3 = this;
 
       axios__WEBPACK_IMPORTED_MODULE_0___default.a.get(url, {
         params: {
           sort: this.sort
         }
       }).then(function (response) {
-        _this.users = response.data.data;
-        _this.curUser = response.data.user;
+        _this3.users = response.data.data;
+        _this3.curUser = response.data.user;
       })["catch"](function (error) {
         alert(error);
       });
@@ -38004,7 +38005,7 @@ __webpack_require__.r(__webpack_exports__);
       var _this2 = this;
 
       var url = "/api/unlike/".concat(postId);
-      axios__WEBPACK_IMPORTED_MODULE_0___default.a.post(url).then(function (Response) {
+      axios__WEBPACK_IMPORTED_MODULE_0___default.a["delete"](url).then(function (Response) {
         _this2.post.isLiked = false;
         _this2.post.likesCount--;
       })["catch"](function (error) {
