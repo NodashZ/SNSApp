@@ -32,6 +32,18 @@
                             </div>
                         </div>
                     </div>
+                    <div v-for="comment in post.comments">
+                        <p>{{comment.userName+ ": " + comment.comment}}</p>
+                    </div>
+                    <form @submit.prevent="comitComment()">
+                        <div class="input-group mt-1">
+                            <input type="text" class="form-control" placeholder="コメント"
+                                aria-describedby="button-addon2" v-on:input="commentStr = $event.target.value">
+                            <div class="input-group-append">
+                                <button class="btn btn-outline-secondary" type="submit" id="button-addon2">投稿する</button>
+                            </div>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
@@ -48,7 +60,7 @@ export default {
     },
     data() {
         return {
-
+            commentStr: String,
         };
     },
     mounted() {
@@ -102,6 +114,17 @@ export default {
         unfollow(userId) {
             let url = `/api/unfollow/${userId}`
             Axios.post(url)
+                .then(Response => {
+                    location.href = "/"
+                })
+                .catch(error => { alert(error) })
+        },
+        comitComment() {
+            let url = `/api/comments`
+            Axios.post(url, {
+                post_id: this.post.id,
+                comment: this.commentStr
+            })
                 .then(Response => {
                     location.href = "/"
                 })

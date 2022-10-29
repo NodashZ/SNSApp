@@ -37976,7 +37976,9 @@ __webpack_require__.r(__webpack_exports__);
     cur_user: Number
   },
   data: function data() {
-    return {};
+    return {
+      commentStr: String
+    };
   },
   mounted: function mounted() {// console.log('Component mounted.')
   },
@@ -38031,6 +38033,17 @@ __webpack_require__.r(__webpack_exports__);
     unfollow: function unfollow(userId) {
       var url = "/api/unfollow/".concat(userId);
       axios__WEBPACK_IMPORTED_MODULE_0___default.a.post(url).then(function (Response) {
+        location.href = "/";
+      })["catch"](function (error) {
+        alert(error);
+      });
+    },
+    comitComment: function comitComment() {
+      var url = "/api/comments";
+      axios__WEBPACK_IMPORTED_MODULE_0___default.a.post(url, {
+        post_id: this.post.id,
+        comment: this.commentStr
+      }).then(function (Response) {
         location.href = "/";
       })["catch"](function (error) {
         alert(error);
@@ -38566,10 +38579,46 @@ var render = function render() {
         return _vm.deletepost(_vm.post.id);
       }
     }
-  }, [_vm._v("削除")])]) : _vm._e()])])])])])]);
+  }, [_vm._v("削除")])]) : _vm._e()])]), _vm._v(" "), _vm._l(_vm.post.comments, function (comment) {
+    return _c("div", [_c("p", [_vm._v(_vm._s(comment.userName + ": " + comment.comment))])]);
+  }), _vm._v(" "), _c("form", {
+    on: {
+      submit: function submit($event) {
+        $event.preventDefault();
+        return _vm.comitComment();
+      }
+    }
+  }, [_c("div", {
+    staticClass: "input-group mt-1"
+  }, [_c("input", {
+    staticClass: "form-control",
+    attrs: {
+      type: "text",
+      placeholder: "コメント",
+      "aria-describedby": "button-addon2"
+    },
+    on: {
+      input: function input($event) {
+        _vm.commentStr = $event.target.value;
+      }
+    }
+  }), _vm._v(" "), _vm._m(0)])])], 2)])])]);
 };
 
-var staticRenderFns = [];
+var staticRenderFns = [function () {
+  var _vm = this,
+      _c = _vm._self._c;
+
+  return _c("div", {
+    staticClass: "input-group-append"
+  }, [_c("button", {
+    staticClass: "btn btn-outline-secondary",
+    attrs: {
+      type: "submit",
+      id: "button-addon2"
+    }
+  }, [_vm._v("投稿する")])]);
+}];
 render._withStripped = true;
 
 

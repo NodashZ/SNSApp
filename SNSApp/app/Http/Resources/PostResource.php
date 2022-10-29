@@ -17,11 +17,16 @@ class PostResource extends JsonResource
     public function toArray($request)
     {
         $retList = parent::toArray($request);
+        
         $retList["isLiked"] = $this->isLiked();
         $retList["likesCount"] = $this->likesCount();
 
-        $user = User::findOrFail($this->user_id);
-        $retList["userName"] = $user->name;
+        $retList["userName"] = $this->user->name;
+
+        $retList["comments"] = $this->comments()->get();
+        foreach ($retList["comments"] as &$comment) {
+            $comment["userName"] = User::findOrFail($comment->user_id)->name;
+        }
 
         return  $retList;
     }
