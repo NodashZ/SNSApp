@@ -24,6 +24,9 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/user/follows', function () {
         return view('user.follows');
     });
+    Route::get('/chat', function () {
+        return view('chat');
+    });
 });
 Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');

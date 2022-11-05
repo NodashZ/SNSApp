@@ -34,4 +34,6 @@ Route::middleware('auth:api')->group(function () {
 
     Route::post('/comments', 'CommentsController@store');
     Route::delete('/comments/{commentId}', 'CommentsController@destroy');
+
+    Route::post('/chat', 'ChatController@sendMessage');
 });

@@ -29,6 +29,7 @@ Vue.component('post-message', require('./components/Message.vue').default);
 Vue.component('post-component', require('./components/PostComponent.vue').default);
 
 Vue.component('follow-list', require('./components/FollowList.vue').default);
+Vue.component('chat', require('./components/Chat.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

@@ -14,3 +14,8 @@
 Broadcast::channel('App.User.{id}', function ($user, $id) {
     return (int) $user->id === (int) $id;
 });
+
+//プライベートチャンネルの認可コールバック
+Broadcast::channel('chat', function ($user) {
+    return auth()->check(); //ログインしている場合は認可
+});
