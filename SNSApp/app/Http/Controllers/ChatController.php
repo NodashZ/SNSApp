@@ -12,14 +12,14 @@ class ChatController extends Controller
     public function sendMessage( Request $request )
     {
         $user = $request->user();
-        $strUsername = $user->name;
         
         // リクエストからデータの取り出し
         $strMessage = $request->input('message');
         
         // メッセージオブジェクトの作成と公開メンバー設定
         $message = new Message;
-        $message->username = $strUsername;
+        $message->username = $user->name;
+        $message->userid = $user->id;
         $message->body = $strMessage;
        
         // 送信者を含めてメッセージを送信

@@ -35,7 +35,7 @@ export default {
         };
     },
     created() {
-        this.fetchUsers("/api/users")
+        this.fetchUsers()
     },
     computed: {
         
@@ -71,7 +71,7 @@ export default {
             let url = `/api/follow/${userId}`
             Axios.post(url)
                 .then(Response => {
-                    this.fetchUsers("/api/users")
+                    this.fetchUsers()
                 })
                 .catch(error => { alert(error) })
         },
@@ -79,12 +79,12 @@ export default {
             let url = `/api/unfollow/${userId}`
             Axios.delete(url)
                 .then(Response => {
-                    this.fetchUsers("/api/users")
+                    this.fetchUsers()
                 })
                 .catch(error => { alert(error) })
         },
-        fetchUsers(url) {
-            Axios.get(url, {
+        fetchUsers() {
+            Axios.get("/api/users", {
                 params: {
                     sort: this.sort
                 }
@@ -95,9 +95,7 @@ export default {
             })
                 .catch(error => { alert(error) })
         },
-        blockUser(userId){
-
-        }
+        
     }
 }
 

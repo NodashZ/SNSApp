@@ -37807,21 +37807,42 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       commentStr: String,
-      messages: []
+      messages: [],
+      users: [],
+      curUser: {}
     };
   },
   created: function created() {
     var _this = this;
 
+    this.fetchUsers();
     window.Echo["private"]('chat').listen('MessageSent', function (e) {
       _this.messages.push({
         message: e.message.body,
-        user: e.message.username
+        username: e.message.username,
+        userid: e.message.userid
       });
     });
   },
   computed: {},
   methods: {
+    isMine: function isMine(message) {
+      return message.userid == this.curUser.id;
+    },
+    fetchUsers: function fetchUsers() {
+      var _this2 = this;
+
+      axios__WEBPACK_IMPORTED_MODULE_0___default.a.get("/api/users", {
+        params: {
+          sort: this.sort
+        }
+      }).then(function (response) {
+        _this2.users = response.data.data;
+        _this2.curUser = response.data.user;
+      })["catch"](function (error) {
+        alert(error);
+      });
+    },
     onsubmit_Form: function onsubmit_Form() {
       if (!this.commentStr) {
         return;
@@ -37830,12 +37851,12 @@ __webpack_require__.r(__webpack_exports__);
       var params = {
         'message': this.commentStr
       };
-      axios__WEBPACK_IMPORTED_MODULE_0___default.a.post('/api/chat', params).then(function (response) {
-        console.log(response);
-      })["catch"](function (error) {
-        alert(error.response);
+      axios__WEBPACK_IMPORTED_MODULE_0___default.a.post('/api/chat', params).then(function (response) {})["catch"](function (error) {
+        alert(error);
         console.log(error.response);
       });
+      var elementInputMessage = document.getElementById("input_message");
+      elementInputMessage.value = "";
     }
   }
 });
@@ -37879,7 +37900,7 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   created: function created() {
-    this.fetchUsers("/api/users");
+    this.fetchUsers();
   },
   computed: {},
   methods: {
@@ -37916,7 +37937,7 @@ __webpack_require__.r(__webpack_exports__);
 
       var url = "/api/follow/".concat(userId);
       axios__WEBPACK_IMPORTED_MODULE_0___default.a.post(url).then(function (Response) {
-        _this.fetchUsers("/api/users");
+        _this.fetchUsers();
       })["catch"](function (error) {
         alert(error);
       });
@@ -37926,15 +37947,15 @@ __webpack_require__.r(__webpack_exports__);
 
       var url = "/api/unfollow/".concat(userId);
       axios__WEBPACK_IMPORTED_MODULE_0___default.a["delete"](url).then(function (Response) {
-        _this2.fetchUsers("/api/users");
+        _this2.fetchUsers();
       })["catch"](function (error) {
         alert(error);
       });
     },
-    fetchUsers: function fetchUsers(url) {
+    fetchUsers: function fetchUsers() {
       var _this3 = this;
 
-      axios__WEBPACK_IMPORTED_MODULE_0___default.a.get(url, {
+      axios__WEBPACK_IMPORTED_MODULE_0___default.a.get("/api/users", {
         params: {
           sort: this.sort
         }
@@ -37944,8 +37965,7 @@ __webpack_require__.r(__webpack_exports__);
       })["catch"](function (error) {
         alert(error);
       });
-    },
-    blockUser: function blockUser(userId) {}
+    }
   }
 });
 
@@ -38364,9 +38384,11 @@ var render = function render() {
   }, [_c("input", {
     staticClass: "form-control",
     attrs: {
+      id: "input_message",
       type: "text",
       placeholder: "メッセージ",
-      "aria-describedby": "button-addon2"
+      "aria-describedby": "button-addon2",
+      required: ""
     },
     on: {
       input: function input($event) {
@@ -38376,7 +38398,11 @@ var render = function render() {
   }), _vm._v(" "), _vm._m(0)])]), _vm._v(" "), _vm._l(_vm.messages, function (message) {
     return _c("ul", {
       staticClass: "list-disc"
-    }, [_c("li", [_c("strong", [_vm._v(_vm._s(message.user))]), _vm._v(" "), _c("div", [_vm._v(_vm._s(message.message))])])]);
+    }, [_vm.isMine(message) ? _c("div", [_c("p", {
+      attrs: {
+        align: "right"
+      }
+    }, [_c("strong", [_vm._v(_vm._s(message.username) + ": ")]), _vm._v("\n                            " + _vm._s(message.message) + "\n                        ")])]) : _c("div", [_c("p", [_c("strong", [_vm._v(_vm._s(message.username) + ": ")]), _vm._v("\n                            " + _vm._s(message.message) + "\n                        ")])])]);
   })], 2)])])]);
 };
 

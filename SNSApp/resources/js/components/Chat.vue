@@ -5,8 +5,8 @@
                 <div class="p-6 bg-white border-b border-gray-200">
                     <form @submit.prevent="onsubmit_Form()">
                         <div class="input-group mt-1">
-                            <input type="text" class="form-control" placeholder="メッセージ" aria-describedby="button-addon2"
-                                v-on:input="commentStr = $event.target.value">
+                            <input id="input_message" type="text" class="form-control" placeholder="メッセージ" aria-describedby="button-addon2"
+                                v-on:input="commentStr = $event.target.value" required>
                             <div class="input-group-append">
                                 <button class="btn btn-outline-secondary" type="submit" id="button-addon2">送信</button>
                             </div>
@@ -14,9 +14,17 @@
                     </form>
 
                     <ul class="list-disc" v-for="message in messages">
-                        <li><strong>{{message.user}}</strong>
-                            <div>{{message.message}}</div>
-                        </li>
+                        <div v-if="isMine(message)">
+                            <p align="right">
+                                <strong>{{message.username}}: </strong>
+                                {{message.message}}
+                            </p>
+                        </div>
+                        <div v-else>
+                            <p><strong>{{message.username}}: </strong>
+                                {{message.message}}
+                            </p>
+                        </div>
                     </ul>
                 </div>
             </div>
@@ -30,22 +38,41 @@ export default {
     data() {
         return {
             commentStr: String,
-            messages:[],
+            messages: [],
+            users: [],
+            curUser: {},
         };
     },
     created() {
+        this.fetchUsers()
         window.Echo.private('chat')
             .listen('MessageSent', (e) => {
                 this.messages.push({
                     message: e.message.body,
-                    user: e.message.username
+                    username: e.message.username,
+                    userid: e.message.userid
                 });
             });
     },
     computed: {
-
+        
     },
     methods: {
+        isMine(message){
+            return (message.userid == this.curUser.id)
+        },
+        fetchUsers() {
+            Axios.get("/api/users", {
+                params: {
+                    sort: this.sort
+                }
+            }
+            ).then(response => {
+                this.users = response.data.data
+                this.curUser = response.data.user
+            })
+                .catch(error => { alert(error) })
+        },
         onsubmit_Form() {
             if (!this.commentStr) {
                 return;
@@ -55,12 +82,14 @@ export default {
 
             Axios.post('/api/chat', params)
                 .then(response => {
-                    console.log(response);
                 })
                 .catch(error => {
-                    alert(error.response)
+                    alert(error)
                     console.log(error.response)
                 });
+
+            const elementInputMessage = document.getElementById("input_message");
+            elementInputMessage.value = "";
         },
 
     }
