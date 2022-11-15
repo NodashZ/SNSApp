@@ -17,7 +17,6 @@
 </template>
 
 <script>
-import Axios from 'axios'
 
 export default {
     props: {
@@ -29,7 +28,7 @@ export default {
     methods: {
         logout() {
             let url = `/logout`
-            Axios.post(url)
+            axios.post(url)
                 .then(Response => {
                     //リダイレクト
                     location.href = "/"

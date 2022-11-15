@@ -51,7 +51,6 @@
 </template>
 
 <script>
-import Axios from 'axios'
 
 export default {
     props: {
@@ -78,7 +77,7 @@ export default {
 
         likepost(postId) {
             let url = `/api/like/${postId}`
-            Axios.post(url)
+            axios.post(url)
                 .then(Response => {
                     //リダイレクトしてしまうと画面がちらつくのでここで更新
                     this.post.isLiked = true
@@ -88,7 +87,7 @@ export default {
         },
         unlikepost(postId) {
             let url = `/api/unlike/${postId}`
-            Axios.delete(url)
+            axios.delete(url)
                 .then(Response => {
                     this.post.isLiked = false
                     this.post.likesCount--
@@ -103,7 +102,7 @@ export default {
         deletepost(postId) {
             let url = `/api/posts/${postId}`
             if (confirm("削除してよろしいですか？")) {
-                Axios.delete(url)
+                axios.delete(url)
                     .then(Response => {
                         //リダイレクト
                         location.href = "/"
@@ -113,7 +112,7 @@ export default {
         },
         unfollow(userId) {
             let url = `/api/unfollow/${userId}`
-            Axios.post(url)
+            axios.post(url)
                 .then(Response => {
                     location.href = "/"
                 })
@@ -121,7 +120,7 @@ export default {
         },
         comitComment() {
             let url = `/api/comments`
-            Axios.post(url, {
+            axios.post(url, {
                 post_id: this.post.id,
                 comment: this.commentStr
             })

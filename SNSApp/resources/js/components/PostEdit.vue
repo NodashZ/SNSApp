@@ -45,7 +45,6 @@
     </div>
 </template>
 <script>
-import Axios from 'axios'
 
 export default {
     data() {
@@ -68,7 +67,7 @@ export default {
     },
     methods: {
         fetchTodo(url) {
-            Axios.get(url)
+            axios.get(url)
                 .then(response => {
                     this.post = response.data.data
                     this.imageurl = '/storage/' + this.post.image
@@ -87,7 +86,7 @@ export default {
             // alert(formData.get('post'))
             
             if (confirm("更新してよろしいですか？")) {
-                Axios.post(url, formData)
+                axios.post(url, formData)
                     .then(Response => {
                         //リダイレクト
                         location.href = "/"

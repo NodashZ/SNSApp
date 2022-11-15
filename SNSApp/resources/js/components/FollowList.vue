@@ -25,7 +25,6 @@
     </div>
 </template>
 <script>
-import Axios from 'axios'
 
 export default {
     data() {
@@ -69,7 +68,7 @@ export default {
         },
         follow(userId) {
             let url = `/api/follow/${userId}`
-            Axios.post(url)
+            axios.post(url)
                 .then(Response => {
                     this.fetchUsers()
                 })
@@ -77,14 +76,14 @@ export default {
         },
         unfollow(userId) {
             let url = `/api/unfollow/${userId}`
-            Axios.delete(url)
+            axios.delete(url)
                 .then(Response => {
                     this.fetchUsers()
                 })
                 .catch(error => { alert(error) })
         },
         fetchUsers() {
-            Axios.get("/api/users", {
+            axios.get("/api/users", {
                 params: {
                     sort: this.sort
                 }

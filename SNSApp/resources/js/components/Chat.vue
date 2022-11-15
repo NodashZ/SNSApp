@@ -32,7 +32,6 @@
     </div>
 </template>
 <script>
-import Axios from 'axios'
 
 export default {
     data() {
@@ -62,7 +61,7 @@ export default {
             return (message.userid == this.curUser.id)
         },
         fetchUsers() {
-            Axios.get("/api/users", {
+            axios.get("/api/users", {
                 params: {
                     sort: this.sort
                 }
@@ -80,7 +79,7 @@ export default {
 
             let params = { 'message': this.commentStr };
 
-            Axios.post('/api/chat', params)
+            axios.post('/api/chat', params)
                 .then(response => {
                 })
                 .catch(error => {

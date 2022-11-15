@@ -54,7 +54,6 @@
 </template>
 <script>
 import string from '@babel/template/lib/string';
-import Axios from 'axios'
 
 export default {
     data() {
@@ -93,7 +92,7 @@ export default {
             if (sort) {
                 this.sort = sort;
             }
-            Axios.get(url, {
+            axios.get(url, {
                 params: {
                     sort: this.sort
                 }

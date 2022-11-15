@@ -37800,9 +37800,6 @@ module.exports = {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
-
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -37832,7 +37829,7 @@ __webpack_require__.r(__webpack_exports__);
     fetchUsers: function fetchUsers() {
       var _this2 = this;
 
-      axios__WEBPACK_IMPORTED_MODULE_0___default.a.get("/api/users", {
+      axios.get("/api/users", {
         params: {
           sort: this.sort
         }
@@ -37851,7 +37848,7 @@ __webpack_require__.r(__webpack_exports__);
       var params = {
         'message': this.commentStr
       };
-      axios__WEBPACK_IMPORTED_MODULE_0___default.a.post('/api/chat', params).then(function (response) {})["catch"](function (error) {
+      axios.post('/api/chat', params).then(function (response) {})["catch"](function (error) {
         alert(error);
         console.log(error.response);
       });
@@ -37889,9 +37886,6 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
-
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -37936,7 +37930,7 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       var url = "/api/follow/".concat(userId);
-      axios__WEBPACK_IMPORTED_MODULE_0___default.a.post(url).then(function (Response) {
+      axios.post(url).then(function (Response) {
         _this.fetchUsers();
       })["catch"](function (error) {
         alert(error);
@@ -37946,7 +37940,7 @@ __webpack_require__.r(__webpack_exports__);
       var _this2 = this;
 
       var url = "/api/unfollow/".concat(userId);
-      axios__WEBPACK_IMPORTED_MODULE_0___default.a["delete"](url).then(function (Response) {
+      axios["delete"](url).then(function (Response) {
         _this2.fetchUsers();
       })["catch"](function (error) {
         alert(error);
@@ -37955,7 +37949,7 @@ __webpack_require__.r(__webpack_exports__);
     fetchUsers: function fetchUsers() {
       var _this3 = this;
 
-      axios__WEBPACK_IMPORTED_MODULE_0___default.a.get("/api/users", {
+      axios.get("/api/users", {
         params: {
           sort: this.sort
         }
@@ -37980,9 +37974,6 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
-
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     appname: String
@@ -37991,7 +37982,7 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     logout: function logout() {
       var url = "/logout";
-      axios__WEBPACK_IMPORTED_MODULE_0___default.a.post(url).then(function (Response) {
+      axios.post(url).then(function (Response) {
         //リダイレクト
         location.href = "/";
       })["catch"](function (error) {
@@ -38012,9 +38003,6 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
-
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     title: String,
@@ -38038,9 +38026,6 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
-
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     post: {},
@@ -38066,7 +38051,7 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       var url = "/api/like/".concat(postId);
-      axios__WEBPACK_IMPORTED_MODULE_0___default.a.post(url).then(function (Response) {
+      axios.post(url).then(function (Response) {
         //リダイレクトしてしまうと画面がちらつくのでここで更新
         _this.post.isLiked = true;
         _this.post.likesCount++;
@@ -38078,7 +38063,7 @@ __webpack_require__.r(__webpack_exports__);
       var _this2 = this;
 
       var url = "/api/unlike/".concat(postId);
-      axios__WEBPACK_IMPORTED_MODULE_0___default.a["delete"](url).then(function (Response) {
+      axios["delete"](url).then(function (Response) {
         _this2.post.isLiked = false;
         _this2.post.likesCount--;
       })["catch"](function (error) {
@@ -38093,7 +38078,7 @@ __webpack_require__.r(__webpack_exports__);
       var url = "/api/posts/".concat(postId);
 
       if (confirm("削除してよろしいですか？")) {
-        axios__WEBPACK_IMPORTED_MODULE_0___default.a["delete"](url).then(function (Response) {
+        axios["delete"](url).then(function (Response) {
           //リダイレクト
           location.href = "/";
         })["catch"](function (error) {
@@ -38103,7 +38088,7 @@ __webpack_require__.r(__webpack_exports__);
     },
     unfollow: function unfollow(userId) {
       var url = "/api/unfollow/".concat(userId);
-      axios__WEBPACK_IMPORTED_MODULE_0___default.a.post(url).then(function (Response) {
+      axios.post(url).then(function (Response) {
         location.href = "/";
       })["catch"](function (error) {
         alert(error);
@@ -38111,7 +38096,7 @@ __webpack_require__.r(__webpack_exports__);
     },
     comitComment: function comitComment() {
       var url = "/api/comments";
-      axios__WEBPACK_IMPORTED_MODULE_0___default.a.post(url, {
+      axios.post(url, {
         post_id: this.post.id,
         comment: this.commentStr
       }).then(function (Response) {
@@ -38134,9 +38119,6 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
-
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -38160,7 +38142,7 @@ __webpack_require__.r(__webpack_exports__);
       var url = "/api/posts";
 
       if (confirm("投稿してよろしいですか？")) {
-        axios__WEBPACK_IMPORTED_MODULE_0___default.a.post(url, formData).then(function (Response) {
+        Axios.post(url, formData).then(function (Response) {
           //リダイレクト
           location.href = "/";
         })["catch"](function (error) {
@@ -38195,9 +38177,6 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
-
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -38221,7 +38200,7 @@ __webpack_require__.r(__webpack_exports__);
     fetchTodo: function fetchTodo(url) {
       var _this = this;
 
-      axios__WEBPACK_IMPORTED_MODULE_0___default.a.get(url).then(function (response) {
+      axios.get(url).then(function (response) {
         _this.post = response.data.data;
         _this.imageurl = '/storage/' + _this.post.image;
       })["catch"](function (error) {
@@ -38242,7 +38221,7 @@ __webpack_require__.r(__webpack_exports__);
       formData.append('post', JSON.stringify(this.post)); // alert(formData.get('post'))
 
       if (confirm("更新してよろしいですか？")) {
-        axios__WEBPACK_IMPORTED_MODULE_0___default.a.post(url, formData).then(function (Response) {
+        axios.post(url, formData).then(function (Response) {
           //リダイレクト
           location.href = "/";
         })["catch"](function (error) {
@@ -38279,9 +38258,6 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_template_lib_string__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/template/lib/string */ "./node_modules/@babel/template/lib/string.js");
 /* harmony import */ var _babel_template_lib_string__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_template_lib_string__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
-
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -38327,7 +38303,7 @@ __webpack_require__.r(__webpack_exports__);
         this.sort = sort;
       }
 
-      axios__WEBPACK_IMPORTED_MODULE_1___default.a.get(url, {
+      axios.get(url, {
         params: {
           sort: this.sort
         }
@@ -38799,8 +38775,6 @@ var render = function render() {
       _c = _vm._self._c;
 
   return _c("div", {
-    staticClass: "row"
-  }, [_c("div", {
     staticClass: "col-md-8 col-md-offset-2"
   }, [_c("post-message", {
     attrs: {
@@ -38820,7 +38794,7 @@ var render = function render() {
     attrs: {
       "for": "content"
     }
-  }, [_vm._v("\n                    内容\n                ")]), _vm._v(" "), _c("textarea", {
+  }, [_vm._v("\n                内容\n            ")]), _vm._v(" "), _c("textarea", {
     directives: [{
       name: "model",
       rawName: "v-model",
@@ -38850,7 +38824,7 @@ var render = function render() {
     attrs: {
       "for": "image"
     }
-  }, [_vm._v("\n                    画像\n                ")]), _vm._v(" "), _vm.imageurl ? _c("div", [_c("img", {
+  }, [_vm._v("\n                画像\n            ")]), _vm._v(" "), _vm.imageurl ? _c("div", [_c("img", {
     attrs: {
       src: _vm.imageurl,
       width: "100%"
@@ -38865,7 +38839,7 @@ var render = function render() {
     on: {
       change: _vm.uploadFile
     }
-  })]), _vm._v(" "), _vm._m(0)])], 1)]);
+  })]), _vm._v(" "), _vm._m(0)])], 1);
 };
 
 var staticRenderFns = [function () {
@@ -38879,12 +38853,12 @@ var staticRenderFns = [function () {
     attrs: {
       href: "/"
     }
-  }, [_vm._v("\n                    キャンセル\n                ")]), _vm._v(" "), _c("button", {
+  }, [_vm._v("\n                キャンセル\n            ")]), _vm._v(" "), _c("button", {
     staticClass: "btn btn-primary",
     attrs: {
       type: "submit"
     }
-  }, [_vm._v("\n                    投稿する\n                ")])]);
+  }, [_vm._v("\n                投稿する\n            ")])]);
 }];
 render._withStripped = true;
 
