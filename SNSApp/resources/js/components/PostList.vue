@@ -3,27 +3,29 @@
         <post-message :title='user.name + "さんのタイムライン"' content=""> </post-message>
 
         <nav class="navbar navbar-expand-sm navbar-light bg-light">
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <div class="collapse navbar-collapse" >
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="/user/follows">{{followsCount}}フォロー</a>
+                        <a class="nav-link" href="/user/follows">{{ followsCount }}フォロー</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/user/follows">{{followersCount}}フォロワー</a>
+                        <a class="nav-link" href="/user/follows">{{ followersCount }}フォロワー</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="/post/create">新規投稿</a>
                     </li>
+                </ul>
 
+                <ul class="navbar-nav">
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
                             data-toggle="dropdown">並びかえ</a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <button class="dropdown-item" v-on:click="fetchposts('/api/posts','user_id')">投稿者</button>
+                            <button class="dropdown-item" v-on:click="fetchposts('/api/posts', 'user_id')">投稿者</button>
                             <button class="dropdown-item" href="#"
-                                v-on:click="fetchposts('/api/posts','updated_at')">更新日</button>
+                                v-on:click="fetchposts('/api/posts', 'updated_at')">更新日</button>
                             <button class="dropdown-item" href="#"
-                                v-on:click="fetchposts('/api/posts','likes_count')">いいね</button>
+                                v-on:click="fetchposts('/api/posts', 'likes_count')">いいね</button>
                         </div>
                     </li>
                 </ul>
@@ -34,22 +36,20 @@
             <post-component :post="post" :cur_user="userID"></post-component>
         </div>
 
-        <nav class="navbar navbar-expands-sm navbar-dark mb-2">
-            <ul class="pagination">
-                <li v-bind:class="[{disabled: !pagination.prev}]" class="page-item">
-                    <a class="page-link" href="#" @click="fetchposts(pagination.prev )">前</a>
-                </li>
+        <ul class="pagination">
+            <li v-bind:class="[{ disabled: !pagination.prev }]" class="page-item">
+                <a class="page-link" href="#" @click="fetchposts(pagination.prev)">前</a>
+            </li>
 
-                <li class="page-item disabled">
-                    <a class="page-link text-dark" href="#">ページ {{pagination.current_page}} /
-                        {{pagination.last_page}}</a>
-                </li>
+            <li class="page-item disabled">
+                <a class="page-link text-dark" href="#">ページ {{ pagination.current_page }} /
+                    {{ pagination.last_page }}</a>
+            </li>
 
-                <li v-bind:class="[{disabled: !pagination.next}]" class="page-item">
-                    <a class="page-link" href="#" @click="fetchposts(pagination.next)">次</a>
-                </li>
-            </ul>
-        </nav>
+            <li v-bind:class="[{ disabled: !pagination.next }]" class="page-item">
+                <a class="page-link" href="#" @click="fetchposts(pagination.next)">次</a>
+            </li>
+        </ul>
     </div>
 </template>
 <script>
@@ -69,16 +69,16 @@ export default {
         this.fetchposts("/api/posts", "id")
     },
     computed: {
-        followsCount(){
+        followsCount() {
             let count = 0
-            if(this.user.follows){
+            if (this.user.follows) {
                 count = this.user.follows.length
             }
             return count;
         },
-        followersCount(){
+        followersCount() {
             let count = 0
-            if(this.user.followers){
+            if (this.user.followers) {
                 count = this.user.followers.length
             }
             return count;

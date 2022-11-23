@@ -2,7 +2,7 @@
     <div class="container mb-5">
         <div class="row justify-content-center">
             <div class="card">
-                <div class="container">
+                <div class="card-header">
                     <div class="row justify-content-between">
                         <div>投稿者: {{ post.userName }}</div>
                         <div v-if="!myPost">
@@ -12,18 +12,24 @@
                     </div>
                 </div>
 
-                <div class="card-header">{{ post.content }}</div>
-                <img :src="imagePath(post)" class="img-fluid">
+                <img :src="imagePath(post)" class="card-img-top">
 
-                <div class="container">
+                <div class="card-body">
+                    <p class="card-text">{{ post.content }}</p>
+                </div>
+
+
+                <div class="container mb-2">
                     <div class="row justify-content-between">
                         <div v-if="post.isLiked">
-                            <button type="button" class="btn btn-success"
-                                @click="unlikepost(post.id)">いいね{{ post.likesCount }}</button>
+                            <button type="button" class="btn btn-success" @click="unlikepost(post.id)">いいね{{
+                                    post.likesCount
+                            }}</button>
                         </div>
                         <div v-else>
-                            <button type="button" class="btn btn-secondary"
-                                @click="likepost(post.id)">いいね{{ post.likesCount }}</button>
+                            <button type="button" class="btn btn-secondary" @click="likepost(post.id)">いいね{{
+                                    post.likesCount
+                            }}</button>
                         </div>
                         <div v-if="myPost">
                             <button type="button" class="btn btn-primary" @click="editpost(post.id)">編集</button>

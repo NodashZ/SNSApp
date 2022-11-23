@@ -38648,7 +38648,7 @@ var render = function render() {
   }, [_c("div", {
     staticClass: "card"
   }, [_c("div", {
-    staticClass: "container"
+    staticClass: "card-header"
   }, [_c("div", {
     staticClass: "row justify-content-between"
   }, [_c("div", [_vm._v("投稿者: " + _vm._s(_vm.post.userName))]), _vm._v(" "), !_vm.myPost ? _c("div", [_c("button", {
@@ -38661,15 +38661,17 @@ var render = function render() {
         return _vm.unfollow(_vm.post.user_id);
       }
     }
-  }, [_vm._v("フォロー解除")])]) : _vm._e()])]), _vm._v(" "), _c("div", {
-    staticClass: "card-header"
-  }, [_vm._v(_vm._s(_vm.post.content))]), _vm._v(" "), _c("img", {
-    staticClass: "img-fluid",
+  }, [_vm._v("フォロー解除")])]) : _vm._e()])]), _vm._v(" "), _c("img", {
+    staticClass: "card-img-top",
     attrs: {
       src: _vm.imagePath(_vm.post)
     }
   }), _vm._v(" "), _c("div", {
-    staticClass: "container"
+    staticClass: "card-body"
+  }, [_c("p", {
+    staticClass: "card-text"
+  }, [_vm._v(_vm._s(_vm.post.content))])]), _vm._v(" "), _c("div", {
+    staticClass: "container mb-2"
   }, [_c("div", {
     staticClass: "row justify-content-between"
   }, [_vm.post.isLiked ? _c("div", [_c("button", {
@@ -39013,10 +39015,7 @@ var render = function render() {
   }), _vm._v(" "), _c("nav", {
     staticClass: "navbar navbar-expand-sm navbar-light bg-light"
   }, [_c("div", {
-    staticClass: "collapse navbar-collapse",
-    attrs: {
-      id: "navbarSupportedContent"
-    }
+    staticClass: "collapse navbar-collapse"
   }, [_c("ul", {
     staticClass: "navbar-nav mr-auto"
   }, [_c("li", {
@@ -39033,7 +39032,9 @@ var render = function render() {
     attrs: {
       href: "/user/follows"
     }
-  }, [_vm._v(_vm._s(_vm.followersCount) + "フォロワー")])]), _vm._v(" "), _vm._m(0), _vm._v(" "), _c("li", {
+  }, [_vm._v(_vm._s(_vm.followersCount) + "フォロワー")])]), _vm._v(" "), _vm._m(0)]), _vm._v(" "), _c("ul", {
+    staticClass: "navbar-nav"
+  }, [_c("li", {
     staticClass: "nav-item dropdown"
   }, [_c("a", {
     staticClass: "nav-link dropdown-toggle",
@@ -39082,9 +39083,7 @@ var render = function render() {
         cur_user: _vm.userID
       }
     })], 1);
-  }), _vm._v(" "), _c("nav", {
-    staticClass: "navbar navbar-expands-sm navbar-dark mb-2"
-  }, [_c("ul", {
+  }), _vm._v(" "), _c("ul", {
     staticClass: "pagination"
   }, [_c("li", {
     staticClass: "page-item",
@@ -39108,7 +39107,7 @@ var render = function render() {
     attrs: {
       href: "#"
     }
-  }, [_vm._v("ページ " + _vm._s(_vm.pagination.current_page) + " /\n                    " + _vm._s(_vm.pagination.last_page))])]), _vm._v(" "), _c("li", {
+  }, [_vm._v("ページ " + _vm._s(_vm.pagination.current_page) + " /\n                " + _vm._s(_vm.pagination.last_page))])]), _vm._v(" "), _c("li", {
     staticClass: "page-item",
     "class": [{
       disabled: !_vm.pagination.next
@@ -39123,7 +39122,7 @@ var render = function render() {
         return _vm.fetchposts(_vm.pagination.next);
       }
     }
-  }, [_vm._v("次")])])])])], 2);
+  }, [_vm._v("次")])])])], 2);
 };
 
 var staticRenderFns = [function () {
