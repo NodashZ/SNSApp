@@ -38534,7 +38534,7 @@ var render = function render() {
     attrs: {
       href: "/post/create"
     }
-  }, [_vm._v("投稿")]), _vm._v(" "), _vm._m(1), _vm._v(" "), _vm._m(2), _vm._v(" "), _c("a", {
+  }, [_vm._v("新規投稿")]), _vm._v(" "), _vm._m(1), _vm._v(" "), _vm._m(2), _vm._v(" "), _c("a", {
     staticClass: "nav-item nav-link active",
     attrs: {
       href: "#"
@@ -38646,8 +38646,6 @@ var render = function render() {
   }, [_c("div", {
     staticClass: "row justify-content-center"
   }, [_c("div", {
-    staticClass: "col-md-8"
-  }, [_c("div", {
     staticClass: "card"
   }, [_c("div", {
     staticClass: "container"
@@ -38666,9 +38664,9 @@ var render = function render() {
   }, [_vm._v("フォロー解除")])]) : _vm._e()])]), _vm._v(" "), _c("div", {
     staticClass: "card-header"
   }, [_vm._v(_vm._s(_vm.post.content))]), _vm._v(" "), _c("img", {
+    staticClass: "img-fluid",
     attrs: {
-      src: _vm.imagePath(_vm.post),
-      width: "100%"
+      src: _vm.imagePath(_vm.post)
     }
   }), _vm._v(" "), _c("div", {
     staticClass: "container"
@@ -38737,7 +38735,7 @@ var render = function render() {
         _vm.commentStr = $event.target.value;
       }
     }
-  }), _vm._v(" "), _vm._m(0)])])], 2)])])]);
+  }), _vm._v(" "), _vm._m(0)])])], 2)])]);
 };
 
 var staticRenderFns = [function () {
@@ -38774,14 +38772,13 @@ var render = function render() {
   var _vm = this,
       _c = _vm._self._c;
 
-  return _c("div", {
-    staticClass: "col-md-8 col-md-offset-2"
-  }, [_c("post-message", {
+  return _c("div", [_c("post-message", {
     attrs: {
       title: "新規投稿フォーム",
       content: "コメントと画像を登録"
     }
   }), _vm._v(" "), _c("form", {
+    staticClass: "my-5",
     on: {
       submit: function submit($event) {
         $event.preventDefault();
@@ -38789,12 +38786,13 @@ var render = function render() {
       }
     }
   }, [_c("div", {
-    staticClass: "form-group"
+    staticClass: "form-group mb-3"
   }, [_c("label", {
+    staticClass: "form-label lead",
     attrs: {
-      "for": "content"
+      "for": "inputContent"
     }
-  }, [_vm._v("\n                内容\n            ")]), _vm._v(" "), _c("textarea", {
+  }, [_vm._v("内容")]), _vm._v(" "), _c("textarea", {
     directives: [{
       name: "model",
       rawName: "v-model",
@@ -38803,9 +38801,8 @@ var render = function render() {
     }],
     staticClass: "form-control",
     attrs: {
-      id: "content",
-      name: "content",
-      rows: "4",
+      id: "inputContent",
+      rows: "6",
       required: ""
     },
     domProps: {
@@ -38819,12 +38816,13 @@ var render = function render() {
       }
     }
   })]), _vm._v(" "), _c("div", {
-    staticClass: "form-group"
+    staticClass: "form-group mb-3"
   }, [_c("label", {
+    staticClass: "form-label lead",
     attrs: {
-      "for": "image"
+      "for": "inputImage"
     }
-  }, [_vm._v("\n                画像\n            ")]), _vm._v(" "), _vm.imageurl ? _c("div", [_c("img", {
+  }, [_vm._v("画像")]), _vm._v(" "), _vm.imageurl ? _c("div", [_c("img", {
     attrs: {
       src: _vm.imageurl,
       width: "100%"
@@ -38832,6 +38830,7 @@ var render = function render() {
   })]) : _vm._e(), _vm._v(" "), _c("input", {
     staticClass: "form-control",
     attrs: {
+      id: "inputImage",
       type: "file",
       accept: "image/*",
       required: ""
@@ -38880,16 +38879,13 @@ var render = function render() {
   var _vm = this,
       _c = _vm._self._c;
 
-  return _c("div", {
-    staticClass: "row"
-  }, [_c("div", {
-    staticClass: "col-md-8 col-md-offset-2"
-  }, [_c("post-message", {
+  return _c("div", [_c("post-message", {
     attrs: {
       title: "投稿編集フォーム",
       content: "コメントと画像を編集"
     }
   }), _vm._v(" "), _c("form", {
+    staticClass: "my-5",
     on: {
       submit: function submit($event) {
         $event.preventDefault();
@@ -38897,12 +38893,13 @@ var render = function render() {
       }
     }
   }, [_c("div", {
-    staticClass: "form-group"
+    staticClass: "form-group mb-3"
   }, [_c("label", {
+    staticClass: "form-label lead",
     attrs: {
-      "for": "content"
+      "for": "inputContent"
     }
-  }, [_vm._v("\n                    内容\n                ")]), _vm._v(" "), _c("textarea", {
+  }, [_vm._v("内容")]), _vm._v(" "), _c("textarea", {
     directives: [{
       name: "model",
       rawName: "v-model",
@@ -38911,9 +38908,8 @@ var render = function render() {
     }],
     staticClass: "form-control",
     attrs: {
-      id: "content",
-      name: "content",
-      rows: "4",
+      id: "inputContent",
+      rows: "6",
       required: ""
     },
     domProps: {
@@ -38927,12 +38923,10 @@ var render = function render() {
       }
     }
   })]), _vm._v(" "), _c("div", {
-    staticClass: "form-group"
+    staticClass: "form-group mb-3"
   }, [_c("label", {
-    attrs: {
-      "for": "image"
-    }
-  }, [_vm._v("\n                    画像\n                ")]), _vm._v(" "), _vm.imageurl ? _c("div", [_c("img", {
+    staticClass: "form-label lead"
+  }, [_vm._v("画像")]), _vm._v(" "), _vm.imageurl ? _c("div", [_c("img", {
     attrs: {
       src: _vm.imageurl,
       width: "100%"
@@ -38958,7 +38952,7 @@ var render = function render() {
       "for": "inputGroupFile01",
       "data-browse": "参照"
     }
-  }, [_vm._v(_vm._s(_vm.imageName))])])])]), _vm._v(" "), _vm._m(1)])], 1)]);
+  }, [_vm._v(_vm._s(_vm.imageName))])])])]), _vm._v(" "), _vm._m(1)])], 1);
 };
 
 var staticRenderFns = [function () {
@@ -38984,12 +38978,12 @@ var staticRenderFns = [function () {
     attrs: {
       href: "/"
     }
-  }, [_vm._v("\n                    キャンセル\n                ")]), _vm._v(" "), _c("button", {
+  }, [_vm._v("\n                キャンセル\n            ")]), _vm._v(" "), _c("button", {
     staticClass: "btn btn-primary",
     attrs: {
       type: "submit"
     }
-  }, [_vm._v("\n                    更新する\n                ")])]);
+  }, [_vm._v("\n                更新する\n            ")])]);
 }];
 render._withStripped = true;
 
@@ -45149,7 +45143,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.message {\n    border: double 4px #ccc;\n    margin: 10px;\n    background-color: #fafafa;\n}\n.msg_title {\n    margin: 0px 20px;\n    color: #999;\n    font-size: 16pt;\n    font-weight: bold;\n}\n.msg_content {\n    margin: 0px 20px;\n    color: #aaa;\n    font-size: 12pt;\n}\n", ""]);
+exports.push([module.i, "\n.message {\n    border: double 4px #ccc;\n    margin: 0px;\n    background-color: #fafafa;\n}\n.msg_title {\n    margin: 0px 20px;\n    color: #999;\n    font-size: 16pt;\n    font-weight: bold;\n}\n.msg_content {\n    margin: 0px 20px;\n    color: #aaa;\n    font-size: 12pt;\n}\n", ""]);
 
 // exports
 

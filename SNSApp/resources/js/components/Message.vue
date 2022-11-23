@@ -2,7 +2,7 @@
 <style>
 .message {
     border: double 4px #ccc;
-    margin: 10px;
+    margin: 0px;
     background-color: #fafafa;
 }
 
@@ -21,16 +21,16 @@
 </style>
 <template>
     <div class="message">
-        <p class="msg_title">{{title}}</p>
-        <p class="msg_content">{{content}}</p>
+        <p class="msg_title">{{  title  }}</p>
+        <p class="msg_content">{{  content  }}</p>
     </div>
 </template>
 <script>
 
 export default {
     props: {
-            title: String,
-            content: String,
+        title: String,
+        content: String,
     },
     data() {
         return {

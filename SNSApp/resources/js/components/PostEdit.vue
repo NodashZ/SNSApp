@@ -1,47 +1,38 @@
 <template>
-    <div class="row">
-        <div class="col-md-8 col-md-offset-2">
-            <post-message title="投稿編集フォーム" content="コメントと画像を編集"> </post-message>
-            <form @submit.prevent="updatepost">
-
-                <div class="form-group">
-                    <label for="content">
-                        内容
-                    </label>
-                    <textarea id="content" name="content" class="form-control" rows="4" v-model="post.content"
-                        required></textarea>
+    <div>
+        <post-message title="投稿編集フォーム" content="コメントと画像を編集"> </post-message>
+        <form @submit.prevent="updatepost" class="my-5">
+            <div class="form-group mb-3">
+                <label for="inputContent" class="form-label lead">内容</label>
+                <textarea class="form-control" id="inputContent" rows="6" v-model="post.content" required></textarea>
+            </div>
+            <div class="form-group mb-3">
+                <label class="form-label lead">画像</label>
+                <div v-if="imageurl">
+                    <img :src="imageurl" width="100%">
                 </div>
-                <div class="form-group">
-                    <label for="image">
-                        画像
-                    </label>
-                    <div v-if="imageurl">
-                        <img :src="imageurl" width="100%">
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroupFileAddon01">画像選択</span>
                     </div>
-                    <div class="input-group mb-3">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text" id="inputGroupFileAddon01">画像選択</span>
-                        </div>
-                        <div class="custom-file">
-                            <input type="file" class="custom-file-input" @change="uploadFile" accept="image/*"
-                                id="inputGroupFile01" aria-describedby="inputGroupFileAddon01">
-                            <label class="custom-file-label" for="inputGroupFile01"
-                                data-browse="参照">{{imageName}}</label>
-                        </div>
+                    <div class="custom-file">
+                        <input type="file" class="custom-file-input"  @change="uploadFile" accept="image/*"
+                            id="inputGroupFile01" aria-describedby="inputGroupFileAddon01">
+                        <label class="custom-file-label" for="inputGroupFile01" data-browse="参照">{{ imageName }}</label>
                     </div>
                 </div>
+            </div>
 
-                <div class="mt-5">
-                    <a class="btn btn-secondary" href="/">
-                        キャンセル
-                    </a>
-                    <button type="submit" class="btn btn-primary">
-                        更新する
-                    </button>
-                </div>
+            <div class="mt-5">
+                <a class="btn btn-secondary" href="/">
+                    キャンセル
+                </a>
+                <button type="submit" class="btn btn-primary">
+                    更新する
+                </button>
+            </div>
 
-            </form>
-        </div>
+        </form>
     </div>
 </template>
 <script>
@@ -84,7 +75,7 @@ export default {
             }
             formData.append('post', JSON.stringify(this.post))
             // alert(formData.get('post'))
-            
+
             if (confirm("更新してよろしいですか？")) {
                 axios.post(url, formData)
                     .then(Response => {

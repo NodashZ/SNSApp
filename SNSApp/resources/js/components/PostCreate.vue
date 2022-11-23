@@ -1,23 +1,19 @@
 <template>
-    <div class="col-md-8 col-md-offset-2">
+    <div>
         <post-message title="新規投稿フォーム" content="コメントと画像を登録"> </post-message>
-        <form @submit.prevent="savepost">
+        <form @submit.prevent="savepost" class="my-5">
 
-            <div class="form-group">
-                <label for="content">
-                    内容
-                </label>
-                <textarea id="content" name="content" class="form-control" rows="4" v-model="post.content"
-                    required></textarea>
+            <div class="form-group mb-3">
+                <label for="inputContent" class="form-label lead">内容</label>
+                <textarea class="form-control" id="inputContent" rows="6" v-model="post.content" required></textarea>
             </div>
-            <div class="form-group">
-                <label for="image">
-                    画像
-                </label>
+
+            <div class="form-group mb-3">
+                <label for="inputImage" class="form-label lead">画像</label>
                 <div v-if="imageurl">
                     <img :src="imageurl" width="100%">
                 </div>
-                <input class="form-control" @change="uploadFile" type="file" accept="image/*" required>
+                <input class="form-control" id="inputImage" @change="uploadFile" type="file" accept="image/*" required>
             </div>
 
             <div class="mt-5">
@@ -31,8 +27,8 @@
         </form>
     </div>
 </template>
-<script>
 
+<script>
 export default {
     data() {
         return {

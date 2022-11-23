@@ -20,7 +20,7 @@
       <header-component appname="{{env('APP_NAME')}}"></header-component>
     </header>
     <br>
-    <div class="container">
+    <div class="container col-md-8 offset-md-2">
       @yield('content')
     </div>
     

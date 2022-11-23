@@ -7,7 +7,7 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div class="navbar-nav">
-                <a class="nav-item nav-link active" href="/post/create">投稿</a>
+                <a class="nav-item nav-link active" href="/post/create">新規投稿</a>
                 <a class="nav-item nav-link active" href="/user/follows">フォロー追加 <span class="sr-only"></span></a>
                 <a class="nav-item nav-link active" href="/chat">チャット <span class="sr-only"></span></a>
                 <a class="nav-item nav-link active" href="#" @click.prevent.stop="logout()">ログアウト</a>
