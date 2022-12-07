@@ -38088,7 +38088,7 @@ __webpack_require__.r(__webpack_exports__);
     },
     unfollow: function unfollow(userId) {
       var url = "/api/unfollow/".concat(userId);
-      axios.post(url).then(function (Response) {
+      axios["delete"](url).then(function (Response) {
         location.href = "/";
       })["catch"](function (error) {
         alert(error);
@@ -38266,7 +38266,8 @@ __webpack_require__.r(__webpack_exports__);
       pagination: {},
       sort: _babel_template_lib_string__WEBPACK_IMPORTED_MODULE_0___default.a,
       user: {},
-      userID: 0
+      userID: 0,
+      keyword: ""
     };
   },
   created: function created() {
@@ -38308,17 +38309,33 @@ __webpack_require__.r(__webpack_exports__);
           sort: this.sort
         }
       }).then(function (response) {
-        _this.posts = response.data.data; // 直接参照するとプロパティが定義されていないと警告がでるので一旦ローカルに保存する 
-
-        _this.user = response.data.user;
-        _this.userID = response.data.user.id;
-        _this.pagination.current_page = response.data.meta.current_page;
-        _this.pagination.last_page = response.data.meta.last_page;
-        _this.pagination.next = response.data.links.next;
-        _this.pagination.prev = response.data.links.prev; // alert(JSON.stringify(response.data.user))
+        _this.updatePosts(response);
       })["catch"](function (error) {
         alert(error);
       });
+    },
+    searchPosts: function searchPosts() {
+      var _this2 = this;
+
+      axios.get("/api/posts", {
+        params: {
+          keyword: this.keyword
+        }
+      }).then(function (response) {
+        _this2.updatePosts(response);
+      })["catch"](function (error) {
+        alert(error);
+      });
+    },
+    updatePosts: function updatePosts(response) {
+      this.posts = response.data.data; // 直接参照するとプロパティが定義されていないと警告がでるので一旦ローカルに保存する 
+
+      this.user = response.data.user;
+      this.userID = response.data.user.id;
+      this.pagination.current_page = response.data.meta.current_page;
+      this.pagination.last_page = response.data.meta.last_page;
+      this.pagination.next = response.data.links.next;
+      this.pagination.prev = response.data.links.prev; // alert(JSON.stringify(response.data.user))
     }
   }
 });
@@ -39034,7 +39051,44 @@ var render = function render() {
     }
   }, [_vm._v(_vm._s(_vm.followersCount) + "フォロワー")])]), _vm._v(" "), _vm._m(0)]), _vm._v(" "), _c("ul", {
     staticClass: "navbar-nav"
-  }, [_c("li", {
+  }, [_c("div", {
+    staticClass: "input-group mr-1"
+  }, [_c("input", {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: _vm.keyword,
+      expression: "keyword"
+    }],
+    staticClass: "form-control",
+    attrs: {
+      type: "text",
+      placeholder: "検索文字を入力",
+      "aria-describedby": "button-addon2"
+    },
+    domProps: {
+      value: _vm.keyword
+    },
+    on: {
+      input: function input($event) {
+        if ($event.target.composing) return;
+        _vm.keyword = $event.target.value;
+      }
+    }
+  }), _vm._v(" "), _c("div", {
+    staticClass: "input-group-append"
+  }, [_c("button", {
+    staticClass: "btn btn-outline-secondary",
+    attrs: {
+      type: "button",
+      id: "button-addon2"
+    },
+    on: {
+      click: function click($event) {
+        return _vm.searchPosts();
+      }
+    }
+  }, [_vm._v("検索")])])]), _vm._v(" "), _c("li", {
     staticClass: "nav-item dropdown"
   }, [_c("a", {
     staticClass: "nav-link dropdown-toggle",

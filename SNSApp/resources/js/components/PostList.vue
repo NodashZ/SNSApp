@@ -3,7 +3,7 @@
         <post-message :title='user.name + "さんのタイムライン"' content=""> </post-message>
 
         <nav class="navbar navbar-expand-sm navbar-light bg-light">
-            <div class="collapse navbar-collapse" >
+            <div class="collapse navbar-collapse">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item">
                         <a class="nav-link" href="/user/follows">{{ followsCount }}フォロー</a>
@@ -17,6 +17,14 @@
                 </ul>
 
                 <ul class="navbar-nav">
+                    <div class="input-group mr-1">
+                        <input type="text" class="form-control" placeholder="検索文字を入力" v-model="keyword"
+                        aria-describedby="button-addon2">
+                        <div class="input-group-append">
+                            <button class="btn btn-outline-secondary" type="button" 
+                            v-on:click="searchPosts()" id="button-addon2">検索</button>
+                        </div>
+                    </div>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
                             data-toggle="dropdown">並びかえ</a>
@@ -63,6 +71,7 @@ export default {
             sort: string,
             user: {},
             userID: 0,
+            keyword: "",
         };
     },
     created() {
@@ -99,18 +108,33 @@ export default {
             }
             )
                 .then(response => {
-                    this.posts = response.data.data
-                    // 直接参照するとプロパティが定義されていないと警告がでるので一旦ローカルに保存する 
-                    this.user = response.data.user;
-                    this.userID = response.data.user.id;
-                    this.pagination.current_page = response.data.meta.current_page
-                    this.pagination.last_page = response.data.meta.last_page
-                    this.pagination.next = response.data.links.next
-                    this.pagination.prev = response.data.links.prev
-                    // alert(JSON.stringify(response.data.user))
+                    this.updatePosts(response)
                 })
                 .catch(error => { alert(error) })
         },
+        searchPosts(){
+            axios.get("/api/posts", {
+                params: {
+                    keyword: this.keyword
+                }
+            }
+            )
+                .then(response => {
+                    this.updatePosts(response)
+                })
+                .catch(error => { alert(error) })
+        },
+        updatePosts(response) {
+            this.posts = response.data.data
+            // 直接参照するとプロパティが定義されていないと警告がでるので一旦ローカルに保存する 
+            this.user = response.data.user;
+            this.userID = response.data.user.id;
+            this.pagination.current_page = response.data.meta.current_page
+            this.pagination.last_page = response.data.meta.last_page
+            this.pagination.next = response.data.links.next
+            this.pagination.prev = response.data.links.prev
+            // alert(JSON.stringify(response.data.user))
+        }
     }
 }
 

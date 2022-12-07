@@ -116,7 +116,7 @@ export default {
         },
         unfollow(userId) {
             let url = `/api/unfollow/${userId}`
-            axios.post(url)
+            axios.delete(url)
                 .then(Response => {
                     location.href = "/"
                 })

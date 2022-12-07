@@ -17,9 +17,14 @@ class PostController extends Controller
      */
     public function index(Request $request)
     {
-        $sort = $request->sort;
-        $userId = $request->user()->id;
-        if (isset($userId)) {
+        $keyword = $request->input('keyword');
+        if (isset($keyword)) {
+            //検索
+            $pat = '%' . addcslashes($keyword, '%_\\') . '%';
+            $posts = Post::where('content', 'LIKE', $pat);
+        } else {
+            //ログインユーザーのタイムライン
+            $sort = $request->sort;
             // $posts = $request->user()->posts();
             $posts = $request->user()->timeline();
 
@@ -31,13 +36,12 @@ class PostController extends Controller
                     $posts = $posts->orderBy($sort, 'asc');
                 }
             }
-            $posts = $posts->paginate(3);
-        } else {
-            $posts = [];
-        }
+        } 
+        $posts = $posts->paginate(3);
 
         return new PostCollection($posts);
     }
+
 
     /**
      * Store a newly created resource in storage.
