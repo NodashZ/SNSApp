@@ -41,7 +41,7 @@
         </nav>
 
         <div v-for="post in posts">
-            <post-component :post="post" :cur_user="userID"></post-component>
+            <post-component :post="post" ></post-component>
         </div>
 
         <ul class="pagination">
@@ -70,7 +70,6 @@ export default {
             pagination: {},
             sort: string,
             user: {},
-            userID: 0,
             keyword: "",
         };
     },
@@ -128,12 +127,14 @@ export default {
             this.posts = response.data.data
             // 直接参照するとプロパティが定義されていないと警告がでるので一旦ローカルに保存する 
             this.user = response.data.user;
-            this.userID = response.data.user.id;
             this.pagination.current_page = response.data.meta.current_page
             this.pagination.last_page = response.data.meta.last_page
             this.pagination.next = response.data.links.next
             this.pagination.prev = response.data.links.prev
             // alert(JSON.stringify(response.data.user))
+
+            //store更新
+            this.$store.dispatch('setUserAction', this.user)
         }
     }
 }

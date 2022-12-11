@@ -6,8 +6,14 @@
                     <div class="row justify-content-between">
                         <div>投稿者: {{ post.userName }}</div>
                         <div v-if="!myPost">
-                            <button type="button" class="btn btn-success"
-                                @click="unfollow(post.user_id)">フォロー解除</button>
+                            <div v-if="isfollow">
+                                <button type="button" class="btn btn-success"
+                                    @click="unfollow(post.user_id)">フォロー解除</button>
+                            </div>
+                            <div v-else>
+                                <button type="button" class="btn btn-success"
+                                    @click="follow(post.user_id)">フォロー追加</button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -59,7 +65,6 @@
 export default {
     props: {
         post: {},
-        cur_user: Number,
     },
     data() {
         return {
@@ -71,8 +76,20 @@ export default {
     },
     computed: {
         myPost() {
-            return (this.cur_user == this.post.user_id)
+            const curUser = this.$store.getters.getUser
+            return (curUser.id == this.post.user_id)
         },
+        isfollow() {
+            const curUser = this.$store.getters.getUser
+            let retVal = false
+            curUser.follows.forEach(user => {
+                if (user.id == this.post.user_id) {
+                    retVal = true
+                }
+            });
+
+            return retVal
+        }
     },
     methods: {
         imagePath(post) {
@@ -113,6 +130,14 @@ export default {
                     })
                     .catch(error => { alert(error) })
             }
+        },
+        follow(userId) {
+            let url = `/api/follow/${userId}`
+            axios.post(url)
+                .then(Response => {
+                    location.href = "/"
+                })
+                .catch(error => { alert(error) })
         },
         unfollow(userId) {
             let url = `/api/unfollow/${userId}`
