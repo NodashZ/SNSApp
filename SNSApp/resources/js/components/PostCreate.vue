@@ -54,7 +54,7 @@ export default {
 
             let url = `/api/posts`
             if (confirm("投稿してよろしいですか？")) {
-                Axios.post(url, formData)
+                axios.post(url, formData)
                     .then(Response => {
                         //リダイレクト
                         location.href = "/"

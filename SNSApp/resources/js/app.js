@@ -33,6 +33,7 @@ Vue.component('post-component', require('./components/PostComponent.vue').defaul
 
 Vue.component('follow-list', require('./components/FollowList.vue').default);
 Vue.component('chat', require('./components/Chat.vue').default);
+Vue.component('maru-batsu', require('./components/MaruBatsu.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
